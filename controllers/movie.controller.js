@@ -53,8 +53,8 @@ const suaPhim = async(req, res) => {
 
 const layThongTinPhim = async(req, res) => {
     try {
-        const { MaPhim } = req.query;
-        const phim = await getPhimByMaPhim(MaPhim);
+        const { movieId } = req.query;
+        const phim = await getPhimByMaPhim(movieId);
         if (phim) {
             return res.status(200).json(phim);
         } else {
@@ -67,10 +67,10 @@ const layThongTinPhim = async(req, res) => {
 }
 const xoaPhim = async(req, res) => {
     try {
-        const { MaPhim } = req.query;
-        const phim = await getPhimByMaPhim(MaPhim);
+        const { movieId } = req.query;
+        const phim = await getPhimByMaPhim(movieId);
         if (phim) {
-            await deletePhim(MaPhim);
+            await deletePhim(movieId);
             return res.status(200).send("Xóa thành công !");
         } else {
             return res.status(400).send("Mã phim không hợp lệ!");

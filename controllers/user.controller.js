@@ -90,15 +90,15 @@ const getDSNguoiDung = async(req, res) => {
 }
 const getDSNguoiDungPhanTrang = async(req, res) => {
     try {
-        const { tuKhoa, soPhanTuTrenTrang, soTrang } = req.query;
-        const limit = Number(soPhanTuTrenTrang);
+        const { textSearch, countItemOfPage, countPage } = req.query;
+        const limit = Number(countItemOfPage);
         let skip;
-        if (Number(soTrang) <= 0) {
+        if (Number(countPage) <= 0) {
             skip = 0;
         } else {
-            skip = (Number(soTrang) - 1) * Number(soPhanTuTrenTrang);
+            skip = (Number(countPage) - 1) * Number(countItemOfPage);
         }
-        const list = await getDanhSachNguoiDung(tuKhoa);
+        const list = await getDanhSachNguoiDung(textSearch);
         const array = Object.values(list).slice(skip, (limit + skip));
         let items = [];
         for (const item of array) {
@@ -107,9 +107,9 @@ const getDSNguoiDungPhanTrang = async(req, res) => {
             delete item.password;
             items.push(item);
         }
-        const totalPages = Math.ceil(((Object.values(list).length) / Number(soPhanTuTrenTrang)));
+        const totalPages = Math.ceil(((Object.values(list).length) / Number(countItemOfPage)));
         const data = {
-            currentPage: soTrang,
+            currentPage: countPage,
             count: items.length,
             totalPages: totalPages,
             totalCount: Object.values(list).length,
@@ -174,7 +174,28 @@ const deleteNguoiDung = async(req, res) => {
         return res.status(600).json(err);
     }
 }
-
+const changePassword = async(req, res) => {
+    try {
+        const { passwordOld, passwordNew, username } = req.body;
+        const taiKhoan = await getNguoiDungByTaiKhoan(username);
+        if (!taiKhoan) {
+            return res.status(400).send("Tài khoản không tồn tại!");
+        }
+        let isCorrectPass = await bcrypt.compare(passwordOld, taiKhoan.password);
+        if (!isCorrectPass) {
+            return res.status(400).send("Mật khẩu không đúng!");
+        }
+        const hashPassword = await bcrypt.hash(passwordNew, 10);
+        await updateThongTinNguoiDungByTaiKhoan({
+            username: username,
+            password: hashPassword
+        });
+        return res.status(200).send("Đổi mật khẩu thành công!")
+    } catch (err) {
+        console.log(err);
+        return res.status(600).json(err);
+    }
+}
 module.exports = {
     dangKyNguoiDung,
     dangNhapNguoiDung,
@@ -183,4 +204,5 @@ module.exports = {
     getLayThongTinNguoiDung,
     updateThongTinNguoiDung,
     deleteNguoiDung,
+    changePassword
 }

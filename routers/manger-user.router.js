@@ -13,7 +13,8 @@ const {
     updateThongTinNguoiDung,
     checkRoleQuanTri,
     deleteNguoiDung,
-    checkRoleAdmin
+    checkRoleAdmin,
+    changePassword
 } = require('../controllers');
 
 router.get('/LayDanhSachLoaiNguoiDung', getDSLoaiNguoiDung);
@@ -34,4 +35,6 @@ router.put('/CapNhatThongTinNguoiDung', isAuthenticated, updateThongTinNguoiDung
 router.post('/ThemNguoiDung', isAuthenticated, checkRoleAdmin, dangKyNguoiDung);
 
 router.delete('/XoaNguoiDung', isAuthenticated, checkRoleAdmin, deleteNguoiDung);
+
+router.put('/DoiMatKhau', isAuthenticated, changePassword);
 module.exports = router;
