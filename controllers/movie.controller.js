@@ -22,6 +22,7 @@ const themPhim = async(req, res) => {
         }
         phim.image = result.secure_url || "";
         phim.rating = Number(phim.rating);
+        phim.duration = Number(phim.duration);
         const ngayKhoiChieu = moment(phim.releaseDate, "DD/MM/YYYY").toDate();
         phim.releaseDate = ngayKhoiChieu;
         const newPhim = await createPhim(phim);

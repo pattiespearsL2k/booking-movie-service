@@ -131,9 +131,15 @@ const getLayThongTinNguoiDung = async(req, res) => {
         }
         const nguoiDung = await getThongTinNguoiDungByTaiKhoan(username);
         const role = await getNameRoleByUserId(nguoiDung.userId);
-        nguoiDung.role = role;
-        delete nguoiDung.password;
-        return res.status(200).json(nguoiDung);
+        const data = {
+            userId: nguoiDung.userId,
+            username: nguoiDung.username,
+            name: nguoiDung.name,
+            email: nguoiDung.email,
+            phoneNumber: nguoiDung.phoneNumber,
+            role: role
+        }
+        return res.status(200).json(data);
     } catch (err) {
         console.log(err);
         return res.status(600).json(err);
