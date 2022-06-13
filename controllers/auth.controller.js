@@ -19,10 +19,10 @@ const isAuthenticated = async(req, res, next) => {
 }
 const checkRoleQuanTri = (req, res, next) => {
     const user = req.user;
-    if (user.role !== "quantri") {
-        return res.status(403).json({ message: "Bạn không phải quản trị viên" });
+    if (user.role === "quantri" || user.role === "admin") {
+        return next();
     }
-    return next();
+    return res.status(403).json({ message: "Bạn không phải quản trị viên" });
 }
 const checkRoleAdmin = (req, res, next) => {
     const user = req.user;

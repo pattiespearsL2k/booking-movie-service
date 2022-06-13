@@ -1,14 +1,7 @@
 const { User } = require('../models');
 
 const createNguoiDung = async(user) => {
-    const newUser = await new User({
-        username: user.taiKhoan,
-        password: user.matKhau,
-        email: user.email,
-        phoneNumber: user.soDt,
-        gender: user.gioiTinh,
-        name: user.hoTen
-    }).save();
+    const newUser = await new User(user).save();
     return newUser;
 }
 
@@ -57,15 +50,8 @@ const getThongTinNguoiDungByTaiKhoan = async(username) => {
 }
 
 const updateThongTinNguoiDungByTaiKhoan = async(user) => {
-    const data = {
-        username: user.taiKhoan,
-        email: user.email,
-        phoneNumber: user.soDt,
-        gender: user.gioiTinh,
-        name: user.hoTen
-    }
-    await User.updateOne({ username: user.taiKhoan }, {
-        $set: (data)
+    await User.updateOne({ username: user.username }, {
+        $set: (user)
     });
 }
 const getNguoiDungByEmail = async(email) => {
@@ -73,8 +59,8 @@ const getNguoiDungByEmail = async(email) => {
     return nguoiDung;
 }
 
-const deleteNguoiDungByTaiKhoan = async(taiKhoan) => {
-    const nguoiDung = await User.findOne({ username: taiKhoan });
+const deleteNguoiDungByTaiKhoan = async(username) => {
+    const nguoiDung = await User.findOne({ username: username });
     await nguoiDung.remove();
 }
 

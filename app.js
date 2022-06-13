@@ -8,7 +8,9 @@ app.get('/health', (req, res) => res.status(200).send('life assistant service'))
 //router 
 
 const managerUserRouter = require('./routers/manger-user.router');
+const managerMovieRouter = require('./routers/manager-movie.router');
 
+app.use('/api/QuanLyPhim', managerMovieRouter);
 app.use('/api/QuanLyNguoiDung', managerUserRouter);
 
 module.exports = app;

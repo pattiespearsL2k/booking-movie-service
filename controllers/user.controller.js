@@ -16,15 +16,15 @@ const bcrypt = require('bcryptjs');
 const dangKyNguoiDung = async(req, res) => {
     try {
         const nguoiDung = req.body;
-        const check_1 = await checkTaiKhoanAndEmail(nguoiDung.taiKhoan, nguoiDung.email);
+        const check_1 = await checkTaiKhoanAndEmail(nguoiDung.username, nguoiDung.email);
         if (check_1 !== null) {
             return res.status(400).send(check_1);
         }
-        const hashPassword = await bcrypt.hash(nguoiDung.matKhau, 10);
-        nguoiDung.matKhau = hashPassword;
+        const hashPassword = await bcrypt.hash(nguoiDung.password, 10);
+        nguoiDung.password = hashPassword;
         const newNguoiDung = await createNguoiDung(nguoiDung);
-        await createRoleUser(newNguoiDung.userId, nguoiDung.maLoaiNguoiDung);
-        delete nguoiDung.matKhau;
+        await createRoleUser(newNguoiDung.userId, nguoiDung.roleId);
+        delete nguoiDung.password;
         return res.status(200).json(nguoiDung);
     } catch (err) {
         console.log(err);
@@ -35,24 +35,23 @@ const dangKyNguoiDung = async(req, res) => {
 
 const dangNhapNguoiDung = async(req, res) => {
     try {
-        const { taiKhoan, matKhau } = req.body;
-        let nguoiDung = await getNguoiDungByTaiKhoan(taiKhoan);
+        const { username, password } = req.body;
+        let nguoiDung = await getNguoiDungByTaiKhoan(username);
         if (!nguoiDung) {
             return res.status(400).send("Tài khoản hoặc mật khẩu không đúng!");
         }
-        let isCorrectPass = await bcrypt.compare(matKhau, nguoiDung.password);
+        let isCorrectPass = await bcrypt.compare(password, nguoiDung.password);
         if (!isCorrectPass) {
             return res.status(400).send("Tài khoản hoặc mật khẩu không đúng!");
         }
         const role = await getNameRoleByUserId(nguoiDung.userId);
         const accessToken = signAccessToken(nguoiDung.userId, role);
         const data = {
-            taiKhoan: nguoiDung.username,
-            hoTen: nguoiDung.name,
+            username: nguoiDung.username,
+            name: nguoiDung.name,
             email: nguoiDung.email,
-            soDT: nguoiDung.phoneNumber,
-            gioiTinh: nguoiDung.gender,
-            maLoaiNguouiDung: role,
+            phoneNumber: nguoiDung.phoneNumber,
+            role: role,
             accessToken: accessToken
         }
         return res.status(200).json(data);
@@ -62,10 +61,10 @@ const dangNhapNguoiDung = async(req, res) => {
     }
 }
 
-const signAccessToken = (user_id, maLoaiNguoiDung) => {
+const signAccessToken = (user_id, role) => {
     return jwt.sign({
             id: user_id,
-            role: maLoaiNguoiDung
+            role: role
         },
         config.AUTH_TOKEN_SECRET.ACCESS_TOKEN
     );
@@ -73,22 +72,17 @@ const signAccessToken = (user_id, maLoaiNguoiDung) => {
 
 const getDSNguoiDung = async(req, res) => {
     try {
-        const { tuKhoa } = req.query;
-        const list = await getDanhSachNguoiDung(tuKhoa);
+        const { textSearch } = req.query;
+        const list = await getDanhSachNguoiDung(textSearch);
         const array = Object.values(list);
-        let newArray = [];
+        let items = [];
         for (const item of array) {
             const role = await getNameRoleByUserId(item.userId);
-            newArray.push({
-                taiKhoan: item.username,
-                hoTen: item.name,
-                email: item.email,
-                soDT: item.phoneNumber,
-                gioiTinh: item.gender,
-                maLoaiNguoiDung: role,
-            });
+            item.role = role;
+            delete item.password;
+            items.push(item);
         }
-        return res.status(200).json(newArray);
+        return res.status(200).json(items);
     } catch (err) {
         console.log(err);
         return res.status(600).json(err);
@@ -96,7 +90,7 @@ const getDSNguoiDung = async(req, res) => {
 }
 const getDSNguoiDungPhanTrang = async(req, res) => {
     try {
-        const { tuKhoa, MaNhom, soPhanTuTrenTrang, soTrang } = req.query;
+        const { tuKhoa, soPhanTuTrenTrang, soTrang } = req.query;
         const limit = Number(soPhanTuTrenTrang);
         let skip;
         if (Number(soTrang) <= 0) {
@@ -109,14 +103,9 @@ const getDSNguoiDungPhanTrang = async(req, res) => {
         let items = [];
         for (const item of array) {
             const role = await getNameRoleByUserId(item.userId);
-            items.push({
-                taiKhoan: item.username,
-                hoTen: item.name,
-                email: item.email,
-                soDT: item.phoneNumber,
-                gioiTinh: item.gender,
-                maLoaiNguoiDung: role,
-            });
+            item.role = role;
+            delete item.password;
+            items.push(item);
         }
         const totalPages = Math.ceil(((Object.values(list).length) / Number(soPhanTuTrenTrang)));
         const data = {
@@ -135,22 +124,16 @@ const getDSNguoiDungPhanTrang = async(req, res) => {
 }
 const getLayThongTinNguoiDung = async(req, res) => {
     try {
-        const { taiKhoan } = req.body;
-        const checkTaiKhoan = await checkTaiKhoanAndEmail(taiKhoan, "");
+        const { username } = req.body;
+        const checkTaiKhoan = await checkTaiKhoanAndEmail(username, "");
         if (checkTaiKhoan === null) {
             return res.status(400).send("Tài khoản không hợp lệ!");
         }
-        const nguoiDung = await getThongTinNguoiDungByTaiKhoan(taiKhoan);
+        const nguoiDung = await getThongTinNguoiDungByTaiKhoan(username);
         const role = await getNameRoleByUserId(nguoiDung.userId);
-        const data = {
-            taiKhoan: nguoiDung.username,
-            hoTen: nguoiDung.name,
-            email: nguoiDung.email,
-            soDT: nguoiDung.phoneNumber,
-            gioiTinh: nguoiDung.gender,
-            maLoaiNguoiDung: role,
-        }
-        return res.status(200).json(data);
+        nguoiDung.role = role;
+        delete nguoiDung.password;
+        return res.status(200).json(nguoiDung);
     } catch (err) {
         console.log(err);
         return res.status(600).json(err);
@@ -160,7 +143,7 @@ const getLayThongTinNguoiDung = async(req, res) => {
 const updateThongTinNguoiDung = async(req, res) => {
     try {
         const nguoiDung = req.body;
-        const taiKhoan = await getNguoiDungByTaiKhoan(nguoiDung.taiKhoan);
+        const taiKhoan = await getNguoiDungByTaiKhoan(nguoiDung.username);
         if (!taiKhoan) {
             return res.status(400).send("Tài khoản không tồn tại!");
         }
@@ -179,12 +162,12 @@ const updateThongTinNguoiDung = async(req, res) => {
 }
 const deleteNguoiDung = async(req, res) => {
     try {
-        const { taiKhoan } = req.query;
-        const nguoiDung = await getNguoiDungByTaiKhoan(taiKhoan);
+        const { username } = req.query;
+        const nguoiDung = await getNguoiDungByTaiKhoan(username);
         if (!nguoiDung) {
             return res.status(400).send("Tài khoản không tồn tại!");
         }
-        await deleteNguoiDungByTaiKhoan(taiKhoan);
+        await deleteNguoiDungByTaiKhoan(username);
         return res.status(200).send("Xóa thành công!");
     } catch (err) {
         console.log(err);
