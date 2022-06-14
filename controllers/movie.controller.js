@@ -20,6 +20,8 @@ const themPhim = async(req, res) => {
         if (file) {
             result = await cloudinary.uploader.upload(req.file.path);
         }
+        phim.nowShowing = Boolean(phim.nowShowing === 'true');
+        phim.comingSoon = Boolean(phim.comingSoon === 'true');
         phim.image = result.secure_url || "";
         phim.rating = Number(phim.rating);
         phim.duration = Number(phim.duration);
@@ -43,6 +45,8 @@ const suaPhim = async(req, res) => {
         }
         const ngayKhoiChieu = moment(phim.releaseDate, "DD/MM/YYYY").toDate();
         phim.releaseDate = ngayKhoiChieu;
+        phim.nowShowing = Boolean(phim.nowShowing === 'true');
+        phim.comingSoon = Boolean(phim.comingSoon === 'true');
         //console.log(moment(phim.ngayKhoiChieu).utcOffset('+0700').format('YYYY-MM-DD HH:mm'));
         await updatePhim(phim);
         return res.status(200).json(phim);

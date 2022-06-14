@@ -30,6 +30,12 @@ const movieSchema = new mongoose.Schema({
     },
     rating: {
         type: String
+    },
+    nowShowing: {
+        type: Boolean
+    },
+    comingSoon: {
+        type: Boolean
     }
 });
 movieSchema.plugin(AutoIncrement, { inc_field: 'movieId' });
