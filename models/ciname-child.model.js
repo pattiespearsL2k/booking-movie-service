@@ -3,17 +3,17 @@ const cinemaChildSchema = new mongoose.Schema({
     cinemaChildID: {
         type: String
     },
-    Name: {
+    cinemaChildName: {
         type: String
     },
     address: {
         type: String
     },
-    listCinemaChild: {
+    listRow: {
         type: Array,
         default: []
     },
-    CinemaID: {
+    cinemaID: {
         type: String
     }
 });

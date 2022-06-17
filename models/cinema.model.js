@@ -1,9 +1,15 @@
 const mongoose = require("mongoose");
 const cinemaSchema = new mongoose.Schema({
-   CinemaID: {
+   cinemaID: {
     type: String
    },
-   Name: {
+   name: {
+    type: String
+   },
+   logo: {
+    type: String
+   },
+   aliases: {
     type: String
    }
 });
