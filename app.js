@@ -9,9 +9,11 @@ app.get('/health', (req, res) => res.status(200).send('life assistant service'))
 
 const managerUserRouter = require('./routers/manger-user.router');
 const managerMovieRouter = require('./routers/manager-movie.router');
-const managerCinema = require('./routers/manager-ciname.router')
+const managerCinema = require('./routers/manager-ciname.router');
+const managerBookingRouter = require('./routers/manager-booking.router');
 app.use('/api/QuanLyPhim', managerMovieRouter);
 app.use('/api/QuanLyNguoiDung', managerUserRouter);
 app.use('/api/QuanLyRap', managerCinema);
+app.use('/api/QuanLyDatVe', managerBookingRouter);
 
 module.exports = app;

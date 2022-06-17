@@ -36,6 +36,10 @@ const movieSchema = new mongoose.Schema({
     },
     comingSoon: {
         type: Boolean
+    },
+    listShow: {
+        type: [],
+        default: []
     }
 });
 movieSchema.plugin(AutoIncrement, { inc_field: 'movieId' });

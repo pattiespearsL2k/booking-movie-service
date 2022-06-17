@@ -9,7 +9,7 @@ const cinemaChildSchema = new mongoose.Schema({
     address: {
         type: String
     },
-    listRow: {
+    listRoom: {
         type: Array,
         default: []
     },

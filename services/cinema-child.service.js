@@ -9,16 +9,16 @@ const getCumRapTheoMaHeThong = async(cinemaID) => {
     return list;
 }
 
-const getrowNameByMaRap = async(cinemaChildID) => {
+const getTenRapByMaRap = async(roomID) => {
     let data = {
         cinemaChildID: '',
-        rowName: ''
+        roomName: ''
     }
-    const cumRap = await CinemaChild.findOne({ "listRow.cinemaChildID": cinemaChildID });
+    const cumRap = await CinemaChild.findOne({ "listRoom.roomID": roomID });
     data.cinemaChildID = cumRap.cinemaChildID;
-    for (const item of cumRap.listRow) {
-        if (item.cinemaChildID === cinemaChildID) {
-            data.rowName = item.rowName;
+    for (const item of cumRap.listRoom) {
+        if (item.roomID === roomID) {
+            data.roomName = item.roomName;
             break;
         }
     }
@@ -27,5 +27,5 @@ const getrowNameByMaRap = async(cinemaChildID) => {
 
 module.exports = {
     getCumRapTheoMaHeThong,
-    getrowNameByMaRap
+    getTenRapByMaRap
 }

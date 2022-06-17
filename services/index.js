@@ -9,11 +9,15 @@ const cinema = require('./cinema.service');
 
 const cinemaChild = require('./cinema-child.service');
 
+const show = require('./show.service');
+const chair = require('./chair.service');
 module.exports = {
     ...role,
     ...roleUser,
     ...user,
     ...movie,
     ...cinema,
-    ...cinemaChild
+    ...cinemaChild,
+    ...show,
+    ...chair
 }
