@@ -39,6 +39,7 @@ const movieSchema = new mongoose.Schema({
     }
 });
 movieSchema.plugin(AutoIncrement, { inc_field: 'movieId' });
+movieSchema.index({ title: 'text'});
 const Movie = mongoose.model("Movie", movieSchema, "Movie");
 module.exports = {
     Movie

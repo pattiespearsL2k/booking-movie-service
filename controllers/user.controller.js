@@ -137,7 +137,8 @@ const getLayThongTinNguoiDung = async(req, res) => {
             name: nguoiDung.name,
             email: nguoiDung.email,
             phoneNumber: nguoiDung.phoneNumber,
-            role: role
+            role: role,
+            bookingInformation: []
         }
         return res.status(200).json(data);
     } catch (err) {

@@ -23,7 +23,7 @@ const themPhim = async(req, res) => {
         phim.nowShowing = Boolean(phim.nowShowing === 'true');
         phim.comingSoon = Boolean(phim.comingSoon === 'true');
         phim.image = result.secure_url || "";
-        phim.rating = Number(phim.rating);
+        phim.rating = Number(phim.rating); 
         phim.duration = Number(phim.duration);
         const ngayKhoiChieu = moment(phim.releaseDate, "DD/MM/YYYY").toDate();
         phim.releaseDate = ngayKhoiChieu;
@@ -87,8 +87,15 @@ const xoaPhim = async(req, res) => {
 }
 const layDanhSachPhim = async(req, res) => {
     try {
+        const {title} = req.query;
+        console.log(title);
         const list = await getDanhSachPhim();
-        return res.status(200).json(list);
+        if(title){
+            const array = Object.values(list).filter(item => (item.title).includes(title));
+            return res.status(200).json(array);
+        }else{
+            return res.status(200).json(list);
+        }
     } catch (err) {
         console.log(err);
         return res.status(600).json(err);
