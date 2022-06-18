@@ -88,10 +88,9 @@ const xoaPhim = async(req, res) => {
 const layDanhSachPhim = async(req, res) => {
     try {
         const {title} = req.query;
-        console.log(title);
         const list = await getDanhSachPhim();
         if(title){
-            const array = Object.values(list).filter(item => (item.title).includes(title));
+            const array = Object.values(list).filter(item => (item.title).toLowerCase().includes(title.toLowerCase()));
             return res.status(200).json(array);
         }else{
             return res.status(200).json(list);
