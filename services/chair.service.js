@@ -2,7 +2,7 @@ const { Chair } = require('../models');
 
 const createDanhSachGhe = async(maLichChieu, giaVe, maRap, tenRap) => {
     const arrayVip = [20, 21, 22, 23, 25, 14, 50, 46, 70, 30, 40, 12];
-    for (let i = 1; i <= 160; i++) {
+    for (let i = 1; i <= 100; i++) {
         let stt;
         let loaiGhe;
         let giaVeGhe;

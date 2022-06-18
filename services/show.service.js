@@ -107,16 +107,16 @@ const getDanhSachPhongVe = async(showID) => {
     const lichChieu = Object.values(list);
     const thongTinPhim = {
         showID: lichChieu[0].showID,
-        tenCumRap: lichChieu[0].rap[0].cinemaChildName,
-        tenRap: lichChieu[0].roomName,
-        diaChi: lichChieu[0].rap[0].address,
-        tenPhim: lichChieu[0].phim[0].title,
-        hinhAnh: lichChieu[0].phim[0].image,
-        ngayChieu: moment(lichChieu[0].phim[0].releaseDate).utcOffset('+0700').format('DD/MM/YYYY'),
-        gioChieu: moment(lichChieu[0].phim[0].releaseDate).utcOffset('+0700').format('HH:mm')
+        cinemaChildName: lichChieu[0].rap[0].cinemaChildName,
+        roomName: lichChieu[0].roomName,
+        address: lichChieu[0].rap[0].address,
+        title: lichChieu[0].phim[0].title,
+        image: lichChieu[0].phim[0].image,
+        showday: moment(lichChieu[0].phim[0].releaseDate).utcOffset('+0700').format('DD/MM/YYYY'),
+        showtime: moment(lichChieu[0].phim[0].releaseDate).utcOffset('+0700').format('HH:mm')
     };
     const data = {
-        thongTinPhim: thongTinPhim,
+        informationMovie: thongTinPhim,
         listChair: lichChieu[0].listChair
     }
     return data;
