@@ -11,6 +11,7 @@ const cinemaChild = require('./cinema-child.service');
 
 const show = require('./show.service');
 const chair = require('./chair.service');
+const coupon = require('./coupon.service');
 module.exports = {
     ...role,
     ...roleUser,
@@ -19,5 +20,6 @@ module.exports = {
     ...cinema,
     ...cinemaChild,
     ...show,
-    ...chair
+    ...chair,
+    ...coupon
 }

@@ -7,6 +7,7 @@ const movie = require('./movie.model');
 const cinema = require('./cinema.model');;
 const cinemaChild = require('./ciname-child.model');
 const show = require('./show.model');
+const coupon = require('./coupon.model');
 
 const chair = require('./chair.model');
 module.exports = {
@@ -17,5 +18,6 @@ module.exports = {
     ...cinema,
     ...cinemaChild,
     ...show,
-    ...chair
+    ...chair,
+    ...coupon
 }

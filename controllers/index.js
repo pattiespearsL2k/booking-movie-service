@@ -6,6 +6,8 @@ const movie = require('./movie.controller');
 const ciname = require('./cinema.controller');
 const cinemaChild = require('./cinema-child.controller');
 const show = require('./show.controller');
+
+const coupon = require('./coupon.controller');
 module.exports = {
     ...auth,
     ...role,
@@ -13,5 +15,6 @@ module.exports = {
     ...movie,
     ...ciname,
     ...cinemaChild,
-    ...show
+    ...show,
+    ...coupon
 }

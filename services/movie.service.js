@@ -29,11 +29,15 @@ const getDanhSachPhim = async() => {
     });
     return list;
 }
+const getPhimByMaLichChieu = async(maLichChieu) => {
+    return await Movie.findOne({"listShow.showID": maLichChieu});
+}
 
 module.exports = {
     createPhim,
     updatePhim,
     getPhimByMaPhim,
     deletePhim,
-    getDanhSachPhim
+    getDanhSachPhim,
+    getPhimByMaLichChieu
 }
