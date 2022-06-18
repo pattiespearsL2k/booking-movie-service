@@ -8,7 +8,9 @@ const {
     getNguoiDungByEmail,
     deleteNguoiDungByTaiKhoan,
     createRoleUser,
-    getNameRoleByUserId
+    getNameRoleByUserId,
+    getListVeByTaiKhoan,
+    getGhebyMaGhe
 } = require('../services');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
@@ -131,6 +133,34 @@ const getLayThongTinNguoiDung = async(req, res) => {
         }
         const nguoiDung = await getThongTinNguoiDungByTaiKhoan(username);
         const role = await getNameRoleByUserId(nguoiDung.userId);
+        //get ve
+        let listVe = [];
+        const list = await getListVeByTaiKhoan(username);
+        for(let item of list){
+            let listGhe = [] 
+            for(let gheItem of item.listChair){
+                const ghe = await getGhebyMaGhe(gheItem.chairID);
+                const dataGhe = {
+                cinemaID: ghe[0].cumrap[0].hethong[0].cinemaID,
+                cinemaName: ghe[0].cumrap[0].hethong[0].name,
+                cinemaChildID: ghe[0].cumrap[0].cinemaChildID,
+                cinemaChildName: ghe[0].cumrap[0].cinemaChildName,
+                roomID: ghe[0].roomID,
+                roomName: ghe[0].roomName,
+                chairID: ghe[0].chairID,
+                chairName: ghe[0].chairName
+            }
+            listGhe.push(dataGhe);
+            }
+            const dataVe = {
+                couponID: item.couponID,
+                bookingDate: item.bookingDate,
+                titleMovie: item.titleMovie,
+                price: item.price,
+                listChair: listGhe
+            }
+            listVe.push(dataVe);
+        }
         const data = {
             userId: nguoiDung.userId,
             username: nguoiDung.username,
@@ -138,7 +168,7 @@ const getLayThongTinNguoiDung = async(req, res) => {
             email: nguoiDung.email,
             phoneNumber: nguoiDung.phoneNumber,
             role: role,
-            bookingInformation: []
+            bookingInformation: listVe
         }
         return res.status(200).json(data);
     } catch (err) {

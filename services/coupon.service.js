@@ -15,7 +15,7 @@ const createVe = async(ve) => {
         titleMovie: ve.titleMovie,
         price: giaVe,
         listChair: dsGhe,
-        userAcount: ve.userAccount
+        userAccount: ve.userAccount
     }).save();
 }
 

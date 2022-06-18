@@ -14,5 +14,5 @@ router.post('/TaoLichChieu', isAuthenticated, checkRoleQuanTri, taoLichChieu);
 
 router.get('/LayDanhSachPhongVe', layDanhSachPhongVe);
 
-router.post('/DatVe',datVe);
+router.post('/DatVe',isAuthenticated,datVe);
 module.exports = router;
