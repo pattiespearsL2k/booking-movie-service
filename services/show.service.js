@@ -133,7 +133,7 @@ const getDanhSachHeThongRapByMaPhim = async(maPhim) => {
                     from: "Show",
                     localField: "cinemaChildID",
                     foreignField: "cinemaChildID",
-                    as: "lichChieuPhim",
+                    as: "lichChieuPhim"
                 },
             }]
         }
@@ -160,8 +160,8 @@ const getDanhSachHeThongRapByMaPhim = async(maPhim) => {
     ]);
     return list;
 }
-const getShowByMaRapAndDate = async(roomID, showtime) => {
-    const show = await Show.findOne({roomID: roomID, showtime: showtime});
+const getShowByMaRapAndDate = async(roomID, showtime, showDate) => {
+    const show = await Show.findOne({roomID: roomID, showtime: showtime, showDate: showDate});
     return show;
 } 
 module.exports = {

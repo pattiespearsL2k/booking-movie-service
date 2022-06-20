@@ -5,7 +5,10 @@ const showSchema = new mongoose.Schema({
         type: Number
     },
     showtime: {
-        type: Date
+        type: String
+    },
+    showDate:{
+        type: String
     },
     roomID: {
         type: Number

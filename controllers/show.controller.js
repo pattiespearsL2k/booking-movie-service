@@ -19,16 +19,19 @@ const taoLichChieu = async(req, res) => {
         const data = await getTenRapByMaRap(lichChieu.roomID);
         lichChieu.roomName = data.roomName;
         lichChieu.cinemaChildID = data.cinemaChildID;
-        reg_showtime = /^([0-9][0-9]\/){2}[0-9][0-9][0-9][0-9] ([0-9][0-9]:){2}[0-1][0-9]$/;
-        if (reg_showtime.test(lichChieu.showtime) !== true) {
-            return res.status(400).send("Ngày chiếu giờ chiếu không hợp lệ, Ngày chiếu phải có định dạng dd/MM/yyyy hh:mm:ss !");
+        reg_showDate = /^([0-9][0-9]\/){2}[0-9][0-9][0-9][0-9]$/;
+        reg_showTime = /^([0-9][0-9]:){2}[0-1][0-9]$/;
+        if (reg_showTime.test(lichChieu.showtime) !== true) {
+            return res.status(400).send("Giờ chiếu không hợp lệ,giờ chiếu phải có định dạng hh:mm:ss!");
         }
+        if (reg_showDate.test(lichChieu.showDate) !== true) {
+            return res.status(400).send("Ngày chiếu không hợp lệ, Ngày chiếu phải có định dạng dd/MM/yyyy!");
+        }
+        const date = lichChieu.showDate + " " + lichChieu.showtime;
         if (lichChieu.price < 75000 || lichChieu.price > 200000) {
             return res.status(400).send("Giá từ 75.000 - 200.000");
         }
-        lichChieu.showtime = moment(lichChieu.showtime, "DD/MM/YYYY HH:mm:ss").toDate();
-        const show = await getShowByMaRapAndDate(lichChieu.roomID, lichChieu.showtime);
-        console.log(show);
+        const show = await getShowByMaRapAndDate(lichChieu.roomID, lichChieu.showtime, lichChieu.showDate);
         if(show){
             return res.status(400).send("Rạp đã được xếp lịch chiếu vào giờ đã nhập!");
         }
@@ -85,6 +88,11 @@ const layThongTinLichChieuPhim = async(req, res) => {
             description: phim.description,
             releaseDate: phim.releaseDate,
             rating: phim.rating,
+            duration: phim.duration,
+            country: phim.country,
+            genre: phim.genre,
+            nowShowing: phim.nowShowing,
+            comingSoon: phim.comingSoon,
             cinema: list
         }
         return res.status(200).json(data);
