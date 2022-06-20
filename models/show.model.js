@@ -7,10 +7,10 @@ const showSchema = new mongoose.Schema({
     showtime: {
         type: Date
     },
-    rowID: {
+    roomID: {
         type: Number
     },
-    rowName: {
+    roomName: {
         type: String
     },
     price: {
