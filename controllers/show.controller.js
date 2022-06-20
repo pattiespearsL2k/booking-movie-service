@@ -5,7 +5,8 @@ const {
     createDanhSachGhe,
     getDanhSachPhongVe,
     getDanhSachHeThongRapByMaPhim,
-    getPhimByMaPhim
+    getPhimByMaPhim,
+    getShowByMaRapAndDate
 } = require('../services');
 const moment = require('moment');
 
@@ -26,6 +27,10 @@ const taoLichChieu = async(req, res) => {
             return res.status(400).send("Giá từ 75.000 - 200.000");
         }
         lichChieu.showtime = moment(lichChieu.showtime, "DD/MM/YYYY HH:mm:ss").toDate();
+        const show = getShowByMaRapAndDate(lichChieu.roomID, lichChieu.showtime);
+        if(show){
+            return res.status(400).send("Rạp đã được xếp lịch chiếu vào giờ đã nhập!");
+        }
         const newLichChieu = await createLichChieu(lichChieu);
         lichChieu.showID = newLichChieu.showID;
         await createDanhSachGhe(newLichChieu.showID, lichChieu.price, lichChieu.roomID, lichChieu.roomName);

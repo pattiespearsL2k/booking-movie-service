@@ -160,10 +160,15 @@ const getDanhSachHeThongRapByMaPhim = async(maPhim) => {
     ]);
     return list;
 }
+const getShowByMaRapAndDate = async(roomID, showtime) => {
+    const show = await Show.findOne({roomID: roomID, showtime: showtime});
+    return show;
+} 
 module.exports = {
     createLichChieu,
     getThongTinLichChieuTheoHeThongRap,
     getLichChieuByMaCum,
     getDanhSachPhongVe,
-    getDanhSachHeThongRapByMaPhim
+    getDanhSachHeThongRapByMaPhim,
+    getShowByMaRapAndDate
 }
