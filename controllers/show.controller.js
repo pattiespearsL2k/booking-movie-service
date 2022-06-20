@@ -27,7 +27,8 @@ const taoLichChieu = async(req, res) => {
             return res.status(400).send("Giá từ 75.000 - 200.000");
         }
         lichChieu.showtime = moment(lichChieu.showtime, "DD/MM/YYYY HH:mm:ss").toDate();
-        const show = getShowByMaRapAndDate(lichChieu.roomID, lichChieu.showtime);
+        const show = await getShowByMaRapAndDate(lichChieu.roomID, lichChieu.showtime);
+        console.log(show);
         if(show){
             return res.status(400).send("Rạp đã được xếp lịch chiếu vào giờ đã nhập!");
         }
