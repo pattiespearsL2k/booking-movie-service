@@ -112,8 +112,8 @@ const getDanhSachPhongVe = async(showID) => {
         address: lichChieu[0].rap[0].address,
         title: lichChieu[0].phim[0].title,
         image: lichChieu[0].phim[0].image,
-        showday: moment(lichChieu[0].phim[0].releaseDate).utcOffset('+0700').format('DD/MM/YYYY'),
-        showtime: moment(lichChieu[0].phim[0].releaseDate).utcOffset('+0700').format('HH:mm')
+        showday: lichChieu[0].showday,
+        showtime: lichChieu[0].showtime
     };
     const data = {
         informationMovie: thongTinPhim,
