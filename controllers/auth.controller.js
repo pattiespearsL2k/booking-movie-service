@@ -14,7 +14,7 @@ const isAuthenticated = async(req, res, next) => {
         }
     } catch (err) {
         console.log(err);
-        return res.status(401).json(err);
+        return res.status(401).send('Lỗi xác thực');
     }
 }
 const checkRoleQuanTri = (req, res, next) => {
