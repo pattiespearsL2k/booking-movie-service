@@ -6,7 +6,7 @@ const {
 const datVe = async(req, res) => {
     try{
         const ve = req.body;
-        const phim = await getPhimByMaLichChieu(ve.showID);
+        const phim = await getPhimByMaLichChieu(Number(ve.showID));
         ve.titleMovie = phim.title;
         await createVe(ve);
         return res.status(200).send("Đặt vé thành công!")
