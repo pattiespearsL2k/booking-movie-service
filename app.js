@@ -11,9 +11,12 @@ const managerUserRouter = require('./routers/manger-user.router');
 const managerMovieRouter = require('./routers/manager-movie.router');
 const managerCinema = require('./routers/manager-ciname.router');
 const managerBookingRouter = require('./routers/manager-booking.router');
+const reviewRouter = require('./routers/review.router');
+
 app.use('/api/QuanLyPhim', managerMovieRouter);
 app.use('/api/QuanLyNguoiDung', managerUserRouter);
 app.use('/api/QuanLyRap', managerCinema);
 app.use('/api/QuanLyDatVe', managerBookingRouter);
+app.use('/api/reviews', reviewRouter);
 
 module.exports = app;

@@ -8,6 +8,8 @@ const cinemaChild = require('./cinema-child.controller');
 const show = require('./show.controller');
 
 const coupon = require('./coupon.controller');
+const review = require('./review.controller');
+
 module.exports = {
     ...auth,
     ...role,
@@ -16,5 +18,6 @@ module.exports = {
     ...ciname,
     ...cinemaChild,
     ...show,
-    ...coupon
+    ...coupon,
+    ...review
 }

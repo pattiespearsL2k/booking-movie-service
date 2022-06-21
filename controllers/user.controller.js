@@ -47,7 +47,7 @@ const dangNhapNguoiDung = async(req, res) => {
             return res.status(400).send("Tài khoản hoặc mật khẩu không đúng!");
         }
         const role = await getNameRoleByUserId(nguoiDung.userId);
-        const accessToken = signAccessToken(nguoiDung.userId, role);
+        const accessToken = signAccessToken(nguoiDung.userId, role, username);
         const data = {
             username: nguoiDung.username,
             name: nguoiDung.name,
@@ -63,9 +63,10 @@ const dangNhapNguoiDung = async(req, res) => {
     }
 }
 
-const signAccessToken = (user_id, role) => {
+const signAccessToken = (user_id, role, username) => {
     return jwt.sign({
             id: user_id,
+            username: username,
             role: role
         },
         config.AUTH_TOKEN_SECRET.ACCESS_TOKEN
@@ -126,7 +127,8 @@ const getDSNguoiDungPhanTrang = async(req, res) => {
 }
 const getLayThongTinNguoiDung = async(req, res) => {
     try {
-        const { username } = req.body;
+        const user = req.user;
+        const username = user.username;
         const checkTaiKhoan = await checkTaiKhoanAndEmail(username, "");
         if (checkTaiKhoan === null) {
             return res.status(400).send("Tài khoản không hợp lệ!");

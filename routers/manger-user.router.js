@@ -28,7 +28,7 @@ router.get('/LayDanhSachNguoiDung', getDSNguoiDung);
 
 router.get('/LayDanhSachNguoiDungPhanTrang', getDSNguoiDungPhanTrang);
 
-router.post('/ThongTinTaiKhoan', getLayThongTinNguoiDung);
+router.post('/ThongTinTaiKhoan', isAuthenticated,getLayThongTinNguoiDung);
 
 router.put('/CapNhatThongTinNguoiDung', isAuthenticated, updateThongTinNguoiDung);
 
