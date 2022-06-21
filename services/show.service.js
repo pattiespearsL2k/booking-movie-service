@@ -160,8 +160,8 @@ const getDanhSachHeThongRapByMaPhim = async(maPhim) => {
     ]);
     return list;
 }
-const getShowByMaRapAndDate = async(roomID, showtime, showDate) => {
-    const show = await Show.findOne({roomID: roomID, showtime: showtime, showDate: showDate});
+const getShowByMaRapAndDate = async(roomID, showtime, showday) => {
+    const show = await Show.findOne({roomID: roomID, showtime: showtime, showday: showday});
     return show;
 } 
 module.exports = {

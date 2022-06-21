@@ -19,19 +19,19 @@ const taoLichChieu = async(req, res) => {
         const data = await getTenRapByMaRap(lichChieu.roomID);
         lichChieu.roomName = data.roomName;
         lichChieu.cinemaChildID = data.cinemaChildID;
-        reg_showDate = /^([0-9][0-9]\/){2}[0-9][0-9][0-9][0-9]$/;
+        reg_showday = /^([0-9][0-9]\/){2}[0-9][0-9][0-9][0-9]$/;
         reg_showTime = /^([0-9][0-9]:){2}[0-1][0-9]$/;
         if (reg_showTime.test(lichChieu.showtime) !== true) {
             return res.status(400).send("Giờ chiếu không hợp lệ,giờ chiếu phải có định dạng hh:mm:ss!");
         }
-        if (reg_showDate.test(lichChieu.showDate) !== true) {
+        if (reg_showday.test(lichChieu.showday) !== true) {
             return res.status(400).send("Ngày chiếu không hợp lệ, Ngày chiếu phải có định dạng dd/MM/yyyy!");
         }
-        const date = lichChieu.showDate + " " + lichChieu.showtime;
+        const date = lichChieu.showday + " " + lichChieu.showtime;
         if (lichChieu.price < 75000 || lichChieu.price > 200000) {
             return res.status(400).send("Giá từ 75.000 - 200.000");
         }
-        const show = await getShowByMaRapAndDate(lichChieu.roomID, lichChieu.showtime, lichChieu.showDate);
+        const show = await getShowByMaRapAndDate(lichChieu.roomID, lichChieu.showtime, lichChieu.showday);
         if(show){
             return res.status(400).send("Rạp đã được xếp lịch chiếu vào giờ đã nhập!");
         }

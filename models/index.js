@@ -8,7 +8,7 @@ const cinema = require('./cinema.model');;
 const cinemaChild = require('./ciname-child.model');
 const show = require('./show.model');
 const coupon = require('./coupon.model');
-
+const review = require('./reviews.model');
 const chair = require('./chair.model');
 module.exports = {
     ...role,
@@ -19,5 +19,6 @@ module.exports = {
     ...cinemaChild,
     ...show,
     ...chair,
-    ...coupon
+    ...coupon,
+    ...review
 }

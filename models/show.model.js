@@ -7,7 +7,7 @@ const showSchema = new mongoose.Schema({
     showtime: {
         type: String
     },
-    showDate:{
+    showday:{
         type: String
     },
     roomID: {
