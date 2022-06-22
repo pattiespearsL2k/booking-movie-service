@@ -18,6 +18,9 @@ const bcrypt = require('bcryptjs');
 const dangKyNguoiDung = async(req, res) => {
     try {
         const nguoiDung = req.body;
+        if(!nguoiDung.username || !nguoiDung.roleId || !nguoiDung.email || !nguoiDung.password || nguoiDung.roleId === "" || nguoiDung.username === "" || nguoiDung.password === ""|| nguoiDung.email === ""){
+            return res.status(400).send("Bạn chưa nhập đủ thông tin");
+        }
         const check_1 = await checkTaiKhoanAndEmail(nguoiDung.username, nguoiDung.email);
         if (check_1 !== null) {
             return res.status(400).send(check_1);
