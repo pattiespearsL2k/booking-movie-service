@@ -15,7 +15,7 @@ router.post('/TaoLichChieu', isAuthenticated, checkRoleQuanTri, taoLichChieu);
 
 router.get('/LayDanhSachPhongVe', layDanhSachPhongVe);
 
-router.get('/XoaLichChieu', deleteShow);
+router.delete('/XoaLichChieu', deleteShow);
 
 router.post('/DatVe',isAuthenticated,datVe);
 module.exports = router;
