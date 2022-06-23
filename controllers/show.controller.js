@@ -6,7 +6,8 @@ const {
     getDanhSachPhongVe,
     getDanhSachHeThongRapByMaPhim,
     getPhimByMaPhim,
-    getShowByMaRapAndDate
+    getShowByMaRapAndDate,
+    deleteShowById
 } = require('../services');
 const moment = require('moment');
 
@@ -101,9 +102,20 @@ const layThongTinLichChieuPhim = async(req, res) => {
         return res.status(600).json(err);
     }
 }
+const deleteShow = async(req, res) => {
+    try {
+        const {showID} = req.query;
+        await deleteShowById(showID);
+        return res.status(200).send("Xóa thành công!");
+    }catch(err){
+        console.log(err);
+        return res.status(600).json(err);
+    }
+}
 module.exports = {
     taoLichChieu,
     layThongTinLichChieuHeThongRap,
     layDanhSachPhongVe,
-    layThongTinLichChieuPhim
+    layThongTinLichChieuPhim,
+    deleteShow
 }

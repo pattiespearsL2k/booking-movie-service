@@ -164,11 +164,15 @@ const getShowByMaRapAndDate = async(roomID, showtime, showday) => {
     const show = await Show.findOne({roomID: roomID, showtime: showtime, showday: showday});
     return show;
 } 
+const deleteShowById = async(showID) => {
+    await Show.findOne({showID: showID}).remove();
+}
 module.exports = {
     createLichChieu,
     getThongTinLichChieuTheoHeThongRap,
     getLichChieuByMaCum,
     getDanhSachPhongVe,
     getDanhSachHeThongRapByMaPhim,
-    getShowByMaRapAndDate
+    getShowByMaRapAndDate,
+    deleteShowById
 }
