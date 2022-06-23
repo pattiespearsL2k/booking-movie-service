@@ -8,10 +8,10 @@ router.get('/', getAllReview);
 
 router.post('/',isAuthenticated, checkRoleQuanTri,  upload.single('image'),createNewReview);
 
-router.get('/:id', getDetailReview);
+router.get('/:reviewId', getDetailReview);
 
 router.put('/', isAuthenticated, checkRoleQuanTri,updateReviewById);
 
-router.delete('/:id', isAuthenticated, checkRoleQuanTri,deleteReview);
+router.delete('/:reviewId', isAuthenticated, checkRoleQuanTri,deleteReview);
 
 module.exports = router;
