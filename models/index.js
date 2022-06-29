@@ -1,7 +1,4 @@
 const role = require('./role.model');
-
-const userrole = require('./user-role.model');
-
 const user = require('./user.model');
 const movie = require('./movie.model');
 const cinema = require('./cinema.model');;
@@ -10,9 +7,9 @@ const show = require('./show.model');
 const coupon = require('./coupon.model');
 const review = require('./reviews.model');
 const chair = require('./chair.model');
+const manager = require('./manager.model');
 module.exports = {
     ...role,
-    ...userrole,
     ...user,
     ...movie,
     ...cinema,
@@ -20,5 +17,6 @@ module.exports = {
     ...show,
     ...chair,
     ...coupon,
-    ...review
+    ...review,
+    ...manager
 }

@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema({
     },
     gender: {
         type: String
+    },
+    roleId: {
+        type: Number
     }
 });
 userSchema.plugin(AutoIncrement, { inc_field: 'userId' });

@@ -1,5 +1,5 @@
 const role = require('./role.service');
-const roleUser = require('./user-role.service');
+
 
 const user = require('./user.service');
 
@@ -17,7 +17,6 @@ const coupon = require('./coupon.service');
 const review = require('./review.service');
 module.exports = {
     ...role,
-    ...roleUser,
     ...user,
     ...movie,
     ...cinema,

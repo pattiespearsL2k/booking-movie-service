@@ -10,7 +10,8 @@ const {
     createRoleUser,
     getNameRoleByUserId,
     getListVeByTaiKhoan,
-    getGhebyMaGhe
+    getGhebyMaGhe,
+    getRoleByRoleId
 } = require('../services');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
@@ -28,7 +29,7 @@ const dangKyNguoiDung = async(req, res) => {
         const hashPassword = await bcrypt.hash(nguoiDung.password, 10);
         nguoiDung.password = hashPassword;
         const newNguoiDung = await createNguoiDung(nguoiDung);
-        await createRoleUser(newNguoiDung.userId, nguoiDung.roleId);
+        // await createRoleUser(newNguoiDung.userId, nguoiDung.roleId);
         delete nguoiDung.password;
         return res.status(200).json(nguoiDung);
     } catch (err) {
@@ -49,7 +50,8 @@ const dangNhapNguoiDung = async(req, res) => {
         if (!isCorrectPass) {
             return res.status(400).send("Tài khoản hoặc mật khẩu không đúng!");
         }
-        const role = await getNameRoleByUserId(nguoiDung.userId);
+        // const role = await getNameRoleByUserId(nguoiDung.userId);
+        const role = await getRoleByRoleId(nguoiDung.roleId);
         const accessToken = signAccessToken(nguoiDung.userId, role, username);
         const data = {
             username: nguoiDung.username,
@@ -83,7 +85,8 @@ const getDSNguoiDung = async(req, res) => {
         const array = Object.values(list);
         let items = [];
         for (const item of array) {
-            const role = await getNameRoleByUserId(item.userId);
+            // const role = await getNameRoleByUserId(item.userId);
+            const role = await getRoleByRoleId(item.roleId);
             item.role = role;
             delete item.password;
             items.push(item);
@@ -108,7 +111,8 @@ const getDSNguoiDungPhanTrang = async(req, res) => {
         const array = Object.values(list).slice(skip, (limit + skip));
         let items = [];
         for (const item of array) {
-            const role = await getNameRoleByUserId(item.userId);
+            // const role = await getNameRoleByUserId(item.userId);
+            const role = await getRoleByRoleId(item.roleId);
             item.role = role;
             delete item.password;
             items.push(item);
@@ -137,7 +141,8 @@ const getLayThongTinNguoiDung = async(req, res) => {
             return res.status(400).send("Tài khoản không hợp lệ!");
         }
         const nguoiDung = await getThongTinNguoiDungByTaiKhoan(username);
-        const role = await getNameRoleByUserId(nguoiDung.userId);
+        // const role = await getNameRoleByUserId(nguoiDung.userId);
+        const role = await getRoleByRoleId(nguoiDung.roleId);
         //get ve
         let listVe = [];
         const list = await getListVeByTaiKhoan(username);

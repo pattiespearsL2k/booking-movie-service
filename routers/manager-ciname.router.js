@@ -16,4 +16,6 @@ router.get('/LayThongTinCumRapTheoHeThong', layThongTinCumRapTheoHeThong);
 router.get('/LayThongTinLichChieuPhim', layThongTinLichChieuPhim);
 router.get('/LayThongTinLichChieuHeThongRap', layThongTinLichChieuHeThongRap);
 
+
+
 module.exports = router;

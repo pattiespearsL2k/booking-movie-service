@@ -7,9 +7,11 @@ const {
     getDanhSachHeThongRapByMaPhim,
     getPhimByMaPhim,
     getShowByMaRapAndDate,
-    deleteShowById
+    deleteShowById,
+    getCinemaIDByUserId,
+    getCinemaIDByRoomID,
+    getShowByShowID
 } = require('../services');
-const moment = require('moment');
 
 const taoLichChieu = async(req, res) => {
     try {
@@ -17,6 +19,12 @@ const taoLichChieu = async(req, res) => {
         lichChieu.movieId = Number(lichChieu.movieId);
         lichChieu.roomID = Number(lichChieu.roomID);
         lichChieu.price = Number(lichChieu.price);
+        const user = req.user;
+        const cinemaID_1 = await getCinemaIDByUserId(user.id);
+        const cinemaID_2 = await getCinemaIDByRoomID(lichChieu.roomID);
+        if(cinemaID_1 !== cinemaID_2){
+            return res.status(400).send("Bạn không có quyền!");
+        }
         const data = await getTenRapByMaRap(lichChieu.roomID);
         lichChieu.roomName = data.roomName;
         lichChieu.cinemaChildID = data.cinemaChildID;
@@ -105,6 +113,13 @@ const layThongTinLichChieuPhim = async(req, res) => {
 const deleteShow = async(req, res) => {
     try {
         const {showID} = req.query;
+        const user = req.user;
+        const cinemaID_1 = await getCinemaIDByUserId(user.id);
+        const roomID = (await getShowByShowID(showID)).roomID;
+        const cinemaID_2 = await getCinemaIDByRoomID(roomID);
+        if(cinemaID_1 !== cinemaID_2){
+            return res.status(400).send("Bạn không có quyền!");
+        }
         await deleteShowById(showID);
         return res.status(200).send("Xóa thành công!");
     }catch(err){

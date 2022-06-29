@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Manager } = require('../models');
 
 const createNguoiDung = async(user) => {
     const newUser = await new User(user).save();
@@ -64,6 +64,17 @@ const deleteNguoiDungByTaiKhoan = async(username) => {
     await nguoiDung.remove();
 }
 
+const getCinemaIDByUserId = async(userId) => {
+    const manager = await Manager.findOne({userId: userId});
+    if(manager){
+        return manager.cinemaID;
+    }else{
+        return null;
+    }
+}
+
+
+
 module.exports = {
     createNguoiDung,
     checkTaiKhoanAndEmail,
@@ -72,5 +83,6 @@ module.exports = {
     getThongTinNguoiDungByTaiKhoan,
     updateThongTinNguoiDungByTaiKhoan,
     getNguoiDungByEmail,
-    deleteNguoiDungByTaiKhoan
+    deleteNguoiDungByTaiKhoan,
+    getCinemaIDByUserId
 }
