@@ -32,7 +32,7 @@ const themPhim = async(req, res) => {
         return res.status(200).json(phim);
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 
@@ -52,7 +52,7 @@ const suaPhim = async(req, res) => {
         return res.status(200).json(phim);
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 
@@ -67,7 +67,7 @@ const layThongTinPhim = async(req, res) => {
         }
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const xoaPhim = async(req, res) => {
@@ -82,7 +82,7 @@ const xoaPhim = async(req, res) => {
         }
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const layDanhSachPhim = async(req, res) => {
@@ -97,7 +97,7 @@ const layDanhSachPhim = async(req, res) => {
         }
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 

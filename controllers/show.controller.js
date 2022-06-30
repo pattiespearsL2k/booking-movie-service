@@ -57,7 +57,7 @@ const taoLichChieu = async(req, res) => {
         return res.status(200).json(lichChieu);
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 
@@ -78,7 +78,7 @@ const layThongTinLichChieuHeThongRap = async(req, res) => {
         return res.status(200).json(list);
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const layDanhSachPhongVe = async(req, res) => {
@@ -88,7 +88,7 @@ const layDanhSachPhongVe = async(req, res) => {
         return res.status(200).json(list);
     }catch(err){
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const layThongTinLichChieuPhim = async(req, res) => {
@@ -114,7 +114,7 @@ const layThongTinLichChieuPhim = async(req, res) => {
         return res.status(200).json(data);
     }catch(err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const deleteShow = async(req, res) => {
@@ -133,7 +133,7 @@ const deleteShow = async(req, res) => {
         return res.status(200).send("Xóa thành công!");
     }catch(err){
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 module.exports = {

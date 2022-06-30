@@ -20,7 +20,7 @@ const createNewReview = async(req, res) => {
         return res.status(200).json(review);
     }catch(err){
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const getDetailReview = async(req, res) => {
@@ -30,7 +30,7 @@ const getDetailReview = async(req, res) => {
         return res.status(200).json(review);
     }catch(err){
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const updateReviewById = async(req, res) => {
@@ -40,7 +40,7 @@ const updateReviewById = async(req, res) => {
         return res.status(200).send('Cập nhật thành công !');
     }catch(err){
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const deleteReview = async(req, res) => {
@@ -50,7 +50,7 @@ const deleteReview = async(req, res) => {
         return res.status(200).send('Xóa thành công !');
     }catch(err){
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const getAllReview = async(req, res) => {
@@ -59,7 +59,7 @@ const getAllReview = async(req, res) => {
         return res.status(200).json(list);
     }catch(err){
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 module.exports = {

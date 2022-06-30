@@ -6,7 +6,7 @@ const getDSLoaiNguoiDung = async(req, res) => {
         const ds = await getListRole();
         return res.status(200).json(ds);
     } catch (err) {
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 

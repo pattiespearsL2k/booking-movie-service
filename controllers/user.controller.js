@@ -31,7 +31,7 @@ const dangKyNguoiDung = async(req, res) => {
         return res.status(200).json(nguoiDung);
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 
 }
@@ -60,7 +60,7 @@ const dangNhapNguoiDung = async(req, res) => {
         return res.status(200).json(data);
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 
@@ -94,7 +94,7 @@ const getDSNguoiDung = async(req, res) => {
         return res.status(200).json(items);
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const getLayThongTinNguoiDung = async(req, res) => {
@@ -147,7 +147,7 @@ const getLayThongTinNguoiDung = async(req, res) => {
         return res.status(200).json(data);
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 
@@ -168,7 +168,7 @@ const updateThongTinNguoiDung = async(req, res) => {
         return res.status(200).json(nguoiDung);
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const deleteNguoiDung = async(req, res) => {
@@ -182,7 +182,7 @@ const deleteNguoiDung = async(req, res) => {
         return res.status(200).send("Xóa thành công!");
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 const changePassword = async(req, res) => {
@@ -204,7 +204,7 @@ const changePassword = async(req, res) => {
         return res.status(200).send("Đổi mật khẩu thành công!")
     } catch (err) {
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 module.exports = {

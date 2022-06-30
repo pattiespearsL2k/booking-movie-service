@@ -12,7 +12,7 @@ const datVe = async(req, res) => {
         return res.status(200).send("Đặt vé thành công!")
     }catch(err){
         console.log(err);
-        return res.status(600).json(err);
+        return res.status(400).json(err);
     }
 }
 module.exports = {

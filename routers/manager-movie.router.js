@@ -5,7 +5,7 @@ const upload = require('../utils/multer');
 
 const {
     isAuthenticated,
-    checkRoleQuanTri,
+    checkRoleAdmin,
     themPhim,
     suaPhim,
     layThongTinPhim,
@@ -15,11 +15,11 @@ const {
 
 router.post('/ThemPhimUploadHinh', upload.single('image'), themPhim);
 
-router.post('/CapNhatPhim', isAuthenticated, checkRoleQuanTri, suaPhim);
+router.post('/CapNhatPhim', isAuthenticated, checkRoleAdmin, suaPhim);
 
 router.get('/LayThongTinPhim', layThongTinPhim);
 
-router.delete('/XoaPhim', isAuthenticated, checkRoleQuanTri, xoaPhim);
+router.delete('/XoaPhim', isAuthenticated, checkRoleAdmin, xoaPhim);
 
 router.get('/LayDanhSachPhim', layDanhSachPhim);
 
