@@ -27,7 +27,6 @@ const dangKyNguoiDung = async(req, res) => {
         const hashPassword = await bcrypt.hash(nguoiDung.password, 10);
         nguoiDung.password = hashPassword;
         const newNguoiDung = await createNguoiDung(nguoiDung);
-        // await createRoleUser(newNguoiDung.userId, nguoiDung.roleId);
         delete nguoiDung.password;
         return res.status(200).json(nguoiDung);
     } catch (err) {
@@ -48,7 +47,6 @@ const dangNhapNguoiDung = async(req, res) => {
         if (!isCorrectPass) {
             return res.status(400).send("Tài khoản hoặc mật khẩu không đúng!");
         }
-        // const role = await getNameRoleByUserId(nguoiDung.userId);
         const role = await getRoleByRoleId(nguoiDung.roleId);
         const accessToken = signAccessToken(nguoiDung.userId, role, username);
         const data = {
@@ -100,41 +98,6 @@ const getDSNguoiDung = async(req, res) => {
         return res.status(600).json(err);
     }
 }
-const getDSNguoiDungPhanTrang = async(req, res) => {
-    try {
-        const { textSearch, countItemOfPage, countPage } = req.query;
-        const limit = Number(countItemOfPage);
-        let skip;
-        if (Number(countPage) <= 0) {
-            skip = 0;
-        } else {
-            skip = (Number(countPage) - 1) * Number(countItemOfPage);
-        }
-        const list = await getDanhSachNguoiDung(textSearch);
-        const array = Object.values(list).slice(skip, (limit + skip));
-        let items = [];
-        for (const item of array) {
-            // const role = await getNameRoleByUserId(item.userId);
-            const role = await getRoleByRoleId(item.roleId);
-            item.role = role;
-            delete item.password;
-            items.push(item);
-        }
-        const totalPages = Math.ceil(((Object.values(list).length) / Number(countItemOfPage)));
-        const data = {
-            currentPage: countPage,
-            count: items.length,
-            totalPages: totalPages,
-            totalCount: Object.values(list).length,
-            items: items
-        }
-        return res.status(200).json(data);
-    } catch (err) {
-        console.log(err);
-        return res.status(600).json(err);
-    }
-
-}
 const getLayThongTinNguoiDung = async(req, res) => {
     try {
         const user = req.user;
@@ -144,7 +107,6 @@ const getLayThongTinNguoiDung = async(req, res) => {
             return res.status(400).send("Tài khoản không hợp lệ!");
         }
         const nguoiDung = await getThongTinNguoiDungByTaiKhoan(username);
-        // const role = await getNameRoleByUserId(nguoiDung.userId);
         const role = await getRoleByRoleId(nguoiDung.roleId);
         //get ve
         let listVe = [];
@@ -250,7 +212,6 @@ module.exports = {
     dangKyNguoiDung,
     dangNhapNguoiDung,
     getDSNguoiDung,
-    getDSNguoiDungPhanTrang,
     getLayThongTinNguoiDung,
     updateThongTinNguoiDung,
     deleteNguoiDung,

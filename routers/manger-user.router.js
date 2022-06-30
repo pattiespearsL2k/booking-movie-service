@@ -7,7 +7,6 @@ const {
     dangKyNguoiDung,
     dangNhapNguoiDung,
     getDSNguoiDung,
-    getDSNguoiDungPhanTrang,
     getLayThongTinNguoiDung,
     isAuthenticated,
     updateThongTinNguoiDung,
@@ -26,7 +25,6 @@ router.post('/DangNhap', dangNhapNguoiDung);
 
 router.get('/LayDanhSachNguoiDung', getDSNguoiDung);
 
-router.get('/LayDanhSachNguoiDungPhanTrang', getDSNguoiDungPhanTrang);
 
 router.post('/ThongTinTaiKhoan', isAuthenticated,getLayThongTinNguoiDung);
 
