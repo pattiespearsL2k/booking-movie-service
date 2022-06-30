@@ -7,8 +7,6 @@ const {
     updateThongTinNguoiDungByTaiKhoan,
     getNguoiDungByEmail,
     deleteNguoiDungByTaiKhoan,
-    createRoleUser,
-    getNameRoleByUserId,
     getListVeByTaiKhoan,
     getGhebyMaGhe,
     getRoleByRoleId
@@ -84,13 +82,18 @@ const getDSNguoiDung = async(req, res) => {
         const list = await getDanhSachNguoiDung(textSearch);
         const array = Object.values(list);
         let items = [];
-        for (const item of array) {
-            // const role = await getNameRoleByUserId(item.userId);
+        for (let item of array) {
             const role = await getRoleByRoleId(item.roleId);
-            item.role = role;
-            delete item.password;
-            items.push(item);
+            items.push({
+                username: item.username,
+                name: item.name,
+                phoneNumber: item.phoneNumber,
+                email: item.email,
+                role: role,
+                userId: item.userId
+            });
         }
+        console.log(items);
         return res.status(200).json(items);
     } catch (err) {
         console.log(err);

@@ -20,10 +20,12 @@ const taoLichChieu = async(req, res) => {
         lichChieu.roomID = Number(lichChieu.roomID);
         lichChieu.price = Number(lichChieu.price);
         const user = req.user;
-        const cinemaID_1 = await getCinemaIDByUserId(user.id);
-        const cinemaID_2 = await getCinemaIDByRoomID(lichChieu.roomID);
-        if(cinemaID_1 !== cinemaID_2){
-            return res.status(400).send("Bạn không có quyền!");
+        if(user.role !== 'admin'){
+            const cinemaID_1 = await getCinemaIDByUserId(user.id);
+            const cinemaID_2 = await getCinemaIDByRoomID(lichChieu.roomID);
+            if(cinemaID_1 !== cinemaID_2){
+                return res.status(400).send("Bạn không có quyền!");
+            }
         }
         const data = await getTenRapByMaRap(lichChieu.roomID);
         lichChieu.roomName = data.roomName;
@@ -114,11 +116,13 @@ const deleteShow = async(req, res) => {
     try {
         const {showID} = req.query;
         const user = req.user;
-        const cinemaID_1 = await getCinemaIDByUserId(user.id);
-        const roomID = (await getShowByShowID(showID)).roomID;
-        const cinemaID_2 = await getCinemaIDByRoomID(roomID);
-        if(cinemaID_1 !== cinemaID_2){
-            return res.status(400).send("Bạn không có quyền!");
+        if(user.role !== 'admin'){
+            const cinemaID_1 = await getCinemaIDByUserId(user.id);
+            const roomID = (await getShowByShowID(showID)).roomID;
+            const cinemaID_2 = await getCinemaIDByRoomID(roomID);
+            if(cinemaID_1 !== cinemaID_2){
+                return res.status(400).send("Bạn không có quyền!");
+            }
         }
         await deleteShowById(showID);
         return res.status(200).send("Xóa thành công!");
