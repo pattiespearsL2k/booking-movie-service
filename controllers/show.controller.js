@@ -12,7 +12,7 @@ const {
     getCinemaIDByRoomID,
     getShowByShowID
 } = require('../services');
-
+const moment = require('moment'); 
 const taoLichChieu = async(req, res) => {
     try {
         const lichChieu = req.body;
@@ -39,6 +39,11 @@ const taoLichChieu = async(req, res) => {
             return res.status(400).send("Ngày chiếu không hợp lệ, Ngày chiếu phải có định dạng dd/MM/yyyy!");
         }
         const date = lichChieu.showday + " " + lichChieu.showtime;
+        const dateShow = moment(date, 'DD/MM/YYYY hh:mm:ss');
+        const nowDate = new Date();
+        if(dateShow < nowDate){
+            return res.status(400).send("ngày đặt lịch không hợp lệ!");
+        }
         if (lichChieu.price < 75000 || lichChieu.price > 200000) {
             return res.status(400).send("Giá từ 75.000 - 200.000");
         }

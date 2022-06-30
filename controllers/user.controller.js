@@ -91,7 +91,6 @@ const getDSNguoiDung = async(req, res) => {
                 userId: item.userId
             });
         }
-        console.log(items);
         return res.status(200).json(items);
     } catch (err) {
         console.log(err);
