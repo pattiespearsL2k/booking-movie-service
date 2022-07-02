@@ -66,6 +66,59 @@ const getThongTinLichChieuTheoHeThongRap = async() => {
     ]);
     return list;
 };
+const getShowByDate = async(showday) => {
+    const list = await Cinema.aggregate([{
+        $lookup: {
+            from: "CinemaChild",
+            localField: "cinemaID",
+            foreignField: "cinemaID",
+            as: "lstCinemaChild",
+            pipeline: [{
+                $lookup: {
+                    from: "Movie",
+                    localField: "listRoom.roomID",
+                    foreignField: "listShow.roomID",
+                    as: "listMovie",
+                    pipeline: [{
+                        $lookup: {
+                            from: "Show",
+                            localField: "listShow.cinemaChildID",
+                            foreignField: "cinemaChildID",
+                            as: "lstShowFlowMovie",
+                            pipeline: [
+                                {
+                                    $match: {showday:showday}
+                                }
+                            ]
+                        }
+                    }]
+                },
+            }]
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            __v: 0,
+            "lstCinemaChild.listRoom": 0,
+            "lstCinemaChild._id": 0,
+            "lstCinemaChild.cinemaID": 0,
+            "lstCinemaChild.listMovie._id": 0,
+            "lstCinemaChild.listMovie.__v": 0,
+            "lstCinemaChild.listMovie.trailer": 0,
+            "lstCinemaChild.listMovie.description": 0,
+            "lstCinemaChild.listMovie.releaseDate": 0,
+            "lstCinemaChild.listMovie.rating": 0,
+            "lstCinemaChild.listMovie.listShow": 0,
+            "lstCinemaChild.listMovie.lstShowFlowMovie._id": 0,
+            "lstCinemaChild.listMovie.lstShowFlowMovie.__v": 0,
+            "lstCinemaChild.listMovie.lstShowFlowMovie.movieId": 0,
+
+        }
+    },
+    ]);
+    return list;
+}
 const getLichChieuByMaCum = async(cinemaChildID) => {
     const list = await Show.find({ cinemaChildID: cinemaChildID });
     return list;
@@ -179,5 +232,6 @@ module.exports = {
     getDanhSachHeThongRapByMaPhim,
     getShowByMaRapAndDate,
     deleteShowById,
-    getShowByShowID
+    getShowByShowID,
+    getShowByDate
 }

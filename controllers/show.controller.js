@@ -10,7 +10,8 @@ const {
     deleteShowById,
     getCinemaIDByUserId,
     getCinemaIDByRoomID,
-    getShowByShowID
+    getShowByShowID,
+    getShowByDate
 } = require('../services');
 const moment = require('moment'); 
 const taoLichChieu = async(req, res) => {
@@ -81,6 +82,27 @@ const layThongTinLichChieuHeThongRap = async(req, res) => {
         return res.status(400).json(err);
     }
 }
+const layThongTinLichChieuHeThongRapByShowDay = async(req, res) => {
+    try {
+        const {showday} = req.query;
+        const list = await getShowByDate(showday);
+        for (let heThong of list) {
+            for (let cum of heThong.lstCinemaChild) {
+                for (let phim of cum.listMovie) {
+                    const array = Object.values(phim.lstShowFlowMovie).filter(item => item.cinemaChildID === cum.cinemaChildID);
+                    array.forEach(item => {
+                        delete item.cinemaChildID;
+                    })
+                    phim.lstShowFlowMovie = array;
+                }
+            }
+        }
+        return res.status(200).json(list);
+    }catch(err){
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
 const layDanhSachPhongVe = async(req, res) => {
     try {
         const {showID} = req.query;
@@ -141,5 +163,6 @@ module.exports = {
     layThongTinLichChieuHeThongRap,
     layDanhSachPhongVe,
     layThongTinLichChieuPhim,
-    deleteShow
+    deleteShow,
+    layThongTinLichChieuHeThongRapByShowDay
 }
