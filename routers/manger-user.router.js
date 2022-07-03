@@ -25,7 +25,6 @@ router.post('/DangNhap', dangNhapNguoiDung);
 
 router.get('/LayDanhSachNguoiDung', getDSNguoiDung);
 
-
 router.post('/ThongTinTaiKhoan', isAuthenticated,getLayThongTinNguoiDung);
 
 router.put('/CapNhatThongTinNguoiDung', isAuthenticated, updateThongTinNguoiDung);

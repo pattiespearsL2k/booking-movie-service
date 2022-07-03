@@ -1,7 +1,7 @@
-const { Cinema, Movie, Show} = require('../models');
+const { Cinema, Movie, Show } = require('../models');
 const moment = require('moment');
 
-const createLichChieu = async(lichChieu) => {
+const createLichChieu = async (lichChieu) => {
 
     const newLichChieu = await new Show(lichChieu).save();
 
@@ -18,59 +18,59 @@ const createLichChieu = async(lichChieu) => {
 }
 
 
-const getThongTinLichChieuTheoHeThongRap = async() => {
+const getThongTinLichChieuTheoHeThongRap = async () => {
     const list = await Cinema.aggregate([{
-            $lookup: {
-                from: "CinemaChild",
-                localField: "cinemaID",
-                foreignField: "cinemaID",
-                as: "lstCinemaChild",
-                pipeline: [{
-                    $lookup: {
-                        from: "Movie",
-                        localField: "listRoom.roomID",
-                        foreignField: "listShow.roomID",
-                        as: "listMovie",
-                        pipeline: [{
-                            $lookup: {
-                                from: "Show",
-                                localField: "listShow.cinemaChildID",
-                                foreignField: "cinemaChildID",
-                                as: "lstShowFlowMovie"
-                            }
-                        }]
-                    },
-                }]
-            }
-        },
-        {
-            $project: {
-                _id: 0,
-                __v: 0,
-                "lstCinemaChild.listRoom": 0,
-                "lstCinemaChild._id": 0,
-                "lstCinemaChild.cinemaID": 0,
-                "lstCinemaChild.listMovie._id": 0,
-                "lstCinemaChild.listMovie.__v": 0,
-                "lstCinemaChild.listMovie.trailer": 0,
-                "lstCinemaChild.listMovie.description": 0,
-                "lstCinemaChild.listMovie.releaseDate": 0,
-                "lstCinemaChild.listMovie.rating": 0,
-                "lstCinemaChild.listMovie.listShow": 0,
-                "lstCinemaChild.listMovie.lstShowFlowMovie._id": 0,
-                "lstCinemaChild.listMovie.lstShowFlowMovie.__v": 0,
-                "lstCinemaChild.listMovie.lstShowFlowMovie.movieId": 0,
+        $lookup: {
+            from: "CinemaChild",
+            localField: "cinemaID",
+            foreignField: "cinemaID",
+            as: "lstCinemaChild",
+            pipeline: [{
+                $lookup: {
+                    from: "Movie",
+                    localField: "listRoom.roomID",
+                    foreignField: "listShow.roomID",
+                    as: "listMovie",
+                    pipeline: [{
+                        $lookup: {
+                            from: "Show",
+                            localField: "listShow.cinemaChildID",
+                            foreignField: "cinemaChildID",
+                            as: "lstShowFlowMovie"
+                        }
+                    }]
+                },
+            }]
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            __v: 0,
+            "lstCinemaChild.listRoom": 0,
+            "lstCinemaChild._id": 0,
+            "lstCinemaChild.cinemaID": 0,
+            "lstCinemaChild.listMovie._id": 0,
+            "lstCinemaChild.listMovie.__v": 0,
+            "lstCinemaChild.listMovie.trailer": 0,
+            "lstCinemaChild.listMovie.description": 0,
+            "lstCinemaChild.listMovie.releaseDate": 0,
+            "lstCinemaChild.listMovie.rating": 0,
+            "lstCinemaChild.listMovie.listShow": 0,
+            "lstCinemaChild.listMovie.lstShowFlowMovie._id": 0,
+            "lstCinemaChild.listMovie.lstShowFlowMovie.__v": 0,
+            "lstCinemaChild.listMovie.lstShowFlowMovie.movieId": 0,
 
-            }
-        },
+        }
+    },
     ]);
     return list;
 };
-const getLichChieuByMaCum = async(cinemaChildID) => {
+const getLichChieuByMaCum = async (cinemaChildID) => {
     const list = await Show.find({ cinemaChildID: cinemaChildID });
     return list;
 }
-const getDanhSachPhongVe = async(showID) => {
+const getDanhSachPhongVe = async (showID) => {
     const list = await Show.aggregate([
         {
             $match: {
@@ -78,32 +78,35 @@ const getDanhSachPhongVe = async(showID) => {
             }
         },
         {
-        $lookup: {
-            from: "Movie",
-            localField: "movieId",
-            foreignField: "movieId",
-            as: "phim"
+            $lookup: {
+                from: "Movie",
+                localField: "movieId",
+                foreignField: "movieId",
+                as: "phim"
+            },
         },
-    },{
-        $lookup: {
-            from: "Chair",
-            localField: "showID",
-            foreignField: "showID",
-            as: "listChair"
+        {
+            $lookup: {
+                from: "Chair",
+                localField: "showID",
+                foreignField: "showID",
+                as: "listChair"
+            },
         },
-    },{
-        $lookup: {
-            from: "CinemaChild",
-            localField: "cinemaChildID",
-            foreignField: "cinemaChildID",
-            as: "rap"
+        {
+            $lookup: {
+                from: "CinemaChild",
+                localField: "cinemaChildID",
+                foreignField: "cinemaChildID",
+                as: "rap"
+            },
         },
-    }, {
-        $project: {
-            "listChair._id": 0,
-            "listChair.__v":0 
-        }
-    }]);
+        {
+            $project: {
+                "listChair._id": 0,
+                "listChair.__v": 0
+            }
+        }]);
     const lichChieu = Object.values(list);
     const thongTinPhim = {
         showID: lichChieu[0].showID,
@@ -121,7 +124,7 @@ const getDanhSachPhongVe = async(showID) => {
     }
     return data;
 }
-const getDanhSachHeThongRapByMaPhim = async(maPhim) => {
+const getDanhSachHeThongRapByMaPhim = async (maPhim) => {
     const list = await Cinema.aggregate([{
         $lookup: {
             from: "CinemaChild",
@@ -152,7 +155,7 @@ const getDanhSachHeThongRapByMaPhim = async(maPhim) => {
             "cumRapChieu._id": 0,
             "cumRapChieu.cinemaID": 0,
             "cumRapChieu.address": 0,
-            "cumRapChieu.lichChieuPhim._id":0,
+            "cumRapChieu.lichChieuPhim._id": 0,
             "cumRapChieu.lichChieuPhim.__v": 0,
             "cumRapChieu.lichChieuPhim.cinemaChildID": 0
         }
@@ -160,15 +163,15 @@ const getDanhSachHeThongRapByMaPhim = async(maPhim) => {
     ]);
     return list;
 }
-const getShowByMaRapAndDate = async(roomID, showtime, showday) => {
-    const show = await Show.findOne({roomID: roomID, showtime: showtime, showday: showday});
+const getShowByMaRapAndDate = async (roomID, showtime, showday) => {
+    const show = await Show.findOne({ roomID: roomID, showtime: showtime, showday: showday });
     return show;
-} 
-const deleteShowById = async(showID) => {
-    await Show.findOne({showID: showID}).remove();
 }
-const getShowByShowID = async(showID) => {
-    const show = await Show.findOne({showID: showID});
+const deleteShowById = async (showID) => {
+    await Show.findOne({ showID: showID }).remove();
+}
+const getShowByShowID = async (showID) => {
+    const show = await Show.findOne({ showID: showID });
     return show;
 }
 module.exports = {

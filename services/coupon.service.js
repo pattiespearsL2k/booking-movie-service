@@ -1,9 +1,10 @@
-const {Coupon} = require('../models');
-const {updateGhe} = require('./chair.service')
-const createVe = async(ve) => {
+const { Coupon } = require('../models');
+const { updateGhe } = require('./chair.service');
+
+const createVe = async (ve) => {
     let dsGhe = [];
     let giaVe = 0;
-    for(let item of ve.listChair){
+    for (let item of ve.listChair) {
         dsGhe.push({
             chairID: item.chairID
         });
@@ -19,10 +20,11 @@ const createVe = async(ve) => {
     }).save();
 }
 
-const getListVeByTaiKhoan = async(taiKhoan) => {
-    const list = await Coupon.find({userAccount: taiKhoan});
+const getListVeByTaiKhoan = async (taiKhoan) => {
+    const list = await Coupon.find({ userAccount: taiKhoan });
     return list;
 }
+
 module.exports = {
     createVe,
     getListVeByTaiKhoan

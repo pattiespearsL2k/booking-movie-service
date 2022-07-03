@@ -4,6 +4,7 @@ const createPhim = async(phim) => {
     const newPhim = await new Movie(phim).save();
     return newPhim;
 }
+
 const updatePhim = async(phim) => {
     await Movie.updateOne({ movie: phim.movieId }, {
         $set: (phim)
@@ -29,6 +30,7 @@ const getDanhSachPhim = async() => {
     });
     return list;
 }
+
 const getPhimByMaLichChieu = async(maLichChieu) => {
     return await Movie.findOne({"listShow.showID": maLichChieu});
 }

@@ -6,6 +6,7 @@ const {
 const datVe = async(req, res) => {
     try{
         const ve = req.body;
+        // get phim when send req showID.
         const phim = await getPhimByMaLichChieu(Number(ve.showID));
         ve.titleMovie = phim.title;
         await createVe(ve);
@@ -15,6 +16,7 @@ const datVe = async(req, res) => {
         return res.status(400).json(err);
     }
 }
+
 module.exports = {
     datVe
 }

@@ -12,18 +12,18 @@ const {
     getCinemaIDByRoomID,
     getShowByShowID
 } = require('../services');
-const moment = require('moment'); 
-const taoLichChieu = async(req, res) => {
+const moment = require('moment');
+const taoLichChieu = async (req, res) => {
     try {
         const lichChieu = req.body;
         lichChieu.movieId = Number(lichChieu.movieId);
         lichChieu.roomID = Number(lichChieu.roomID);
         lichChieu.price = Number(lichChieu.price);
         const user = req.user;
-        if(user.role !== 'admin'){
+        if (user.role !== 'admin') {
             const cinemaID_1 = await getCinemaIDByUserId(user.id);
             const cinemaID_2 = await getCinemaIDByRoomID(lichChieu.roomID);
-            if(cinemaID_1 !== cinemaID_2){
+            if (cinemaID_1 !== cinemaID_2) {
                 return res.status(400).send("Bạn không có quyền!");
             }
         }
@@ -41,14 +41,14 @@ const taoLichChieu = async(req, res) => {
         const date = lichChieu.showday + " " + lichChieu.showtime;
         const dateShow = moment(date, 'DD/MM/YYYY hh:mm:ss');
         const nowDate = new Date();
-        if(dateShow < nowDate){
+        if (dateShow < nowDate) {
             return res.status(400).send("ngày đặt lịch không hợp lệ!");
         }
         if (lichChieu.price < 75000 || lichChieu.price > 200000) {
             return res.status(400).send("Giá từ 75.000 - 200.000");
         }
         const show = await getShowByMaRapAndDate(lichChieu.roomID, lichChieu.showtime, lichChieu.showday);
-        if(show){
+        if (show) {
             return res.status(400).send("Rạp đã được xếp lịch chiếu vào giờ đã nhập!");
         }
         const newLichChieu = await createLichChieu(lichChieu);
@@ -60,10 +60,10 @@ const taoLichChieu = async(req, res) => {
         return res.status(400).json(err);
     }
 }
-
-const layThongTinLichChieuHeThongRap = async(req, res) => {
+const layThongTinLichChieuHeThongRap = async (req, res) => {
     try {
         const list = await getThongTinLichChieuTheoHeThongRap();
+        // delete cinemaChildID in lstShowFlowMovie
         for (let heThong of list) {
             for (let cum of heThong.lstCinemaChild) {
                 for (let phim of cum.listMovie) {
@@ -81,19 +81,19 @@ const layThongTinLichChieuHeThongRap = async(req, res) => {
         return res.status(400).json(err);
     }
 }
-const layDanhSachPhongVe = async(req, res) => {
+const layDanhSachPhongVe = async (req, res) => {
     try {
-        const {showID} = req.query;
+        const { showID } = req.query;
         const list = await getDanhSachPhongVe(Number(showID));
         return res.status(200).json(list);
-    }catch(err){
+    } catch (err) {
         console.log(err);
         return res.status(400).json(err);
     }
 }
-const layThongTinLichChieuPhim = async(req, res) => {
+const layThongTinLichChieuPhim = async (req, res) => {
     try {
-        const {movieId} = req.query;
+        const { movieId } = req.query;
         const list = await getDanhSachHeThongRapByMaPhim(Number(movieId));
         const phim = await getPhimByMaPhim(Number(movieId));
         const data = {
@@ -112,26 +112,26 @@ const layThongTinLichChieuPhim = async(req, res) => {
             cinema: list
         }
         return res.status(200).json(data);
-    }catch(err) {
+    } catch (err) {
         console.log(err);
         return res.status(400).json(err);
     }
 }
-const deleteShow = async(req, res) => {
+const deleteShow = async (req, res) => {
     try {
-        const {showID} = req.query;
+        const { showID } = req.query;
         const user = req.user;
-        if(user.role !== 'admin'){
+        if (user.role !== 'admin') {
             const cinemaID_1 = await getCinemaIDByUserId(user.id);
             const roomID = (await getShowByShowID(showID)).roomID;
             const cinemaID_2 = await getCinemaIDByRoomID(roomID);
-            if(cinemaID_1 !== cinemaID_2){
+            if (cinemaID_1 !== cinemaID_2) {
                 return res.status(400).send("Bạn không có quyền!");
             }
         }
         await deleteShowById(showID);
         return res.status(200).send("Xóa thành công!");
-    }catch(err){
+    } catch (err) {
         console.log(err);
         return res.status(400).json(err);
     }

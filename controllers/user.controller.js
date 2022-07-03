@@ -14,10 +14,10 @@ const {
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 const bcrypt = require('bcryptjs');
-const dangKyNguoiDung = async(req, res) => {
+const dangKyNguoiDung = async (req, res) => {
     try {
         const nguoiDung = req.body;
-        if(!nguoiDung.username || !nguoiDung.roleId || !nguoiDung.email || !nguoiDung.password || nguoiDung.roleId === "" || nguoiDung.username === "" || nguoiDung.password === ""|| nguoiDung.email === ""){
+        if (!nguoiDung.username || !nguoiDung.roleId || !nguoiDung.email || !nguoiDung.password || nguoiDung.roleId === "" || nguoiDung.username === "" || nguoiDung.password === "" || nguoiDung.email === "") {
             return res.status(400).send("Bạn chưa nhập đủ thông tin");
         }
         const check_1 = await checkTaiKhoanAndEmail(nguoiDung.username, nguoiDung.email);
@@ -36,7 +36,7 @@ const dangKyNguoiDung = async(req, res) => {
 
 }
 
-const dangNhapNguoiDung = async(req, res) => {
+const dangNhapNguoiDung = async (req, res) => {
     try {
         const { username, password } = req.body;
         let nguoiDung = await getNguoiDungByTaiKhoan(username);
@@ -66,15 +66,15 @@ const dangNhapNguoiDung = async(req, res) => {
 
 const signAccessToken = (user_id, role, username) => {
     return jwt.sign({
-            id: user_id,
-            username: username,
-            role: role
-        },
+        id: user_id,
+        username: username,
+        role: role
+    },
         config.AUTH_TOKEN_SECRET.ACCESS_TOKEN
     );
 }
 
-const getDSNguoiDung = async(req, res) => {
+const getDSNguoiDung = async (req, res) => {
     try {
         const { textSearch } = req.query;
         const list = await getDanhSachNguoiDung(textSearch);
@@ -97,7 +97,7 @@ const getDSNguoiDung = async(req, res) => {
         return res.status(400).json(err);
     }
 }
-const getLayThongTinNguoiDung = async(req, res) => {
+const getLayThongTinNguoiDung = async (req, res) => {
     try {
         const user = req.user;
         const username = user.username;
@@ -110,21 +110,21 @@ const getLayThongTinNguoiDung = async(req, res) => {
         //get ve
         let listVe = [];
         const list = await getListVeByTaiKhoan(username);
-        for(let item of list){
-            let listGhe = [] 
-            for(let gheItem of item.listChair){
+        for (let item of list) {
+            let listGhe = []
+            for (let gheItem of item.listChair) {
                 const ghe = await getGhebyMaGhe(gheItem.chairID);
                 const dataGhe = {
-                cinemaID: ghe[0].cumrap[0].hethong[0].cinemaID,
-                cinemaName: ghe[0].cumrap[0].hethong[0].name,
-                cinemaChildID: ghe[0].cumrap[0].cinemaChildID,
-                cinemaChildName: ghe[0].cumrap[0].cinemaChildName,
-                roomID: ghe[0].roomID,
-                roomName: ghe[0].roomName,
-                chairID: ghe[0].chairID,
-                chairName: ghe[0].chairName
-            }
-            listGhe.push(dataGhe);
+                    cinemaID: ghe[0].cumrap[0].hethong[0].cinemaID,
+                    cinemaName: ghe[0].cumrap[0].hethong[0].name,
+                    cinemaChildID: ghe[0].cumrap[0].cinemaChildID,
+                    cinemaChildName: ghe[0].cumrap[0].cinemaChildName,
+                    roomID: ghe[0].roomID,
+                    roomName: ghe[0].roomName,
+                    chairID: ghe[0].chairID,
+                    chairName: ghe[0].chairName
+                }
+                listGhe.push(dataGhe);
             }
             const dataVe = {
                 couponID: item.couponID,
@@ -151,7 +151,7 @@ const getLayThongTinNguoiDung = async(req, res) => {
     }
 }
 
-const updateThongTinNguoiDung = async(req, res) => {
+const updateThongTinNguoiDung = async (req, res) => {
     try {
         const nguoiDung = req.body;
         const taiKhoan = await getNguoiDungByTaiKhoan(nguoiDung.username);
@@ -171,7 +171,7 @@ const updateThongTinNguoiDung = async(req, res) => {
         return res.status(400).json(err);
     }
 }
-const deleteNguoiDung = async(req, res) => {
+const deleteNguoiDung = async (req, res) => {
     try {
         const { username } = req.query;
         const nguoiDung = await getNguoiDungByTaiKhoan(username);
@@ -185,7 +185,7 @@ const deleteNguoiDung = async(req, res) => {
         return res.status(400).json(err);
     }
 }
-const changePassword = async(req, res) => {
+const changePassword = async (req, res) => {
     try {
         const { passwordOld, passwordNew, username } = req.body;
         const taiKhoan = await getNguoiDungByTaiKhoan(username);
