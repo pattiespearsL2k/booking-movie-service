@@ -28,7 +28,6 @@ const getCinemaIDByRoomID = async(roomID) => {
     const cinemaChild = await CinemaChild.findOne({'listRoom.roomID' : roomID});
     return cinemaChild.cinemaID;
 }
-
 module.exports = {
     getCumRapTheoMaHeThong,
     getTenRapByMaRap,
