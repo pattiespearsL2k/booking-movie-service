@@ -9,7 +9,9 @@ const {
     layThongTinLichChieuHeThongRap,
     isAuthenticated,
     layThongTinHeThongRapByUserID,
-    layThongTinLichChieuHeThongRapByShowDay
+    layThongTinLichChieuHeThongRapByShowDay,
+    checkRoleQuanTri,
+    layThongTinLichChieuHeThongRapByShowDayAndManagerCinema
 } = require('../controllers');
 
 router.get('/LayThongTinHeThongRap', layThongTinHeThongRap);
@@ -18,6 +20,7 @@ router.get('/LayThongTinLichChieuPhim', layThongTinLichChieuPhim);
 router.get('/LayThongTinLichChieuHeThongRap', layThongTinLichChieuHeThongRap);
 router.get('/LayThongTinLichChieuHeThongRapTheoNgay', layThongTinLichChieuHeThongRapByShowDay);
 router.get('/LayThongTinHeThongRapByUserID', isAuthenticated, layThongTinHeThongRapByUserID);
+router.get('/LayThongTinLichChieuHeThongRapTheoNgayVaTheoRap', isAuthenticated, checkRoleQuanTri, layThongTinLichChieuHeThongRapByShowDayAndManagerCinema);
 
 
 

@@ -151,6 +151,22 @@ const getLayThongTinNguoiDung = async (req, res) => {
     }
 }
 
+const getDetailUserByUsernameOfAdmin = async(req, res) => {
+    try {
+        const {username} = req.query;
+        const user = await getThongTinNguoiDungByTaiKhoan(username);
+        return res.status(200).json({
+            username: user.username,
+            name: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber
+        });
+    }catch(err){
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
+
 const updateThongTinNguoiDung = async (req, res) => {
     try {
         const nguoiDung = req.body;
@@ -214,5 +230,6 @@ module.exports = {
     getLayThongTinNguoiDung,
     updateThongTinNguoiDung,
     deleteNguoiDung,
-    changePassword
+    changePassword,
+    getDetailUserByUsernameOfAdmin
 }

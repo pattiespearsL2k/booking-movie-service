@@ -43,6 +43,7 @@ const getThongTinNguoiDungByTaiKhoan = async(username) => {
         username: username
     };
     const user = await User.findOne(option, {
+        password: 0,
         __v: 0,
         _id: 0
     });
