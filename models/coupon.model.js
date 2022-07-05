@@ -11,10 +11,6 @@ const couponSchema = new mongoose.Schema({
    price: {
     type: Number
    },
-//    thoiLuongPhim: {
-//     type: Number,
-//     default: 120
-//    },
    showID: {
     type: Number
    },

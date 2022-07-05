@@ -8,7 +8,7 @@ const {
 const cloudinary = require('../utils/cloudinary');
 const moment = require('moment');
 
-const themPhim = async(req, res) => {
+const themPhim = async (req, res) => {
     try {
         const phim = req.body;
         reg_ngayKhoiChieu = /^[0-3][0-9]\/[0-1][0-9]\/[0-3][0-9][0-9][0-9]$/;
@@ -23,7 +23,7 @@ const themPhim = async(req, res) => {
         phim.nowShowing = Boolean(phim.nowShowing === 'true');
         phim.comingSoon = Boolean(phim.comingSoon === 'true');
         phim.image = result.secure_url || "";
-        phim.rating = Number(phim.rating); 
+        phim.rating = Number(phim.rating);
         phim.duration = Number(phim.duration);
         const ngayKhoiChieu = moment(phim.releaseDate, "DD/MM/YYYY").toDate();
         phim.releaseDate = ngayKhoiChieu;
@@ -36,12 +36,18 @@ const themPhim = async(req, res) => {
     }
 }
 
-const suaPhim = async(req, res) => {
+const suaPhim = async (req, res) => {
     try {
         const phim = req.body;
         reg_ngayKhoiChieu = /^[0-3][0-9]\/[0-1][0-9]\/[0-3][0-9][0-9][0-9]$/;
         if (reg_ngayKhoiChieu.test(phim.releaseDate) !== true) {
             return res.status(400).send("Ngày chiếu không hợp lệ, Ngày chiếu phải có định dạng dd/MM/yyyy !");
+        }
+        const file = req.file;
+        let result;
+        if (file) {
+            result = await cloudinary.uploader.upload(req.file.path);
+            phim.image = result.secure_url;
         }
         const ngayKhoiChieu = moment(phim.releaseDate, "DD/MM/YYYY").toDate();
         phim.releaseDate = ngayKhoiChieu;
@@ -56,7 +62,7 @@ const suaPhim = async(req, res) => {
     }
 }
 
-const layThongTinPhim = async(req, res) => {
+const layThongTinPhim = async (req, res) => {
     try {
         const { movieId } = req.query;
         const phim = await getPhimByMaPhim(movieId);
@@ -70,7 +76,7 @@ const layThongTinPhim = async(req, res) => {
         return res.status(400).json(err);
     }
 }
-const xoaPhim = async(req, res) => {
+const xoaPhim = async (req, res) => {
     try {
         const { movieId } = req.query;
         const phim = await getPhimByMaPhim(movieId);
@@ -85,14 +91,14 @@ const xoaPhim = async(req, res) => {
         return res.status(400).json(err);
     }
 }
-const layDanhSachPhim = async(req, res) => {
+const layDanhSachPhim = async (req, res) => {
     try {
-        const {title} = req.query;
+        const { title } = req.query;
         const list = await getDanhSachPhim();
-        if(title){
+        if (title) {
             const array = Object.values(list).filter(item => (item.title).toLowerCase().includes(title.toLowerCase()));
             return res.status(200).json(array);
-        }else{
+        } else {
             return res.status(200).json(list);
         }
     } catch (err) {

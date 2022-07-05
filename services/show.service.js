@@ -66,7 +66,7 @@ const getThongTinLichChieuTheoHeThongRap = async () => {
     ]);
     return list;
 };
-const getShowByDate = async(showday) => {
+const getShowByDate = async (showday) => {
     const arrayCinemaChildID = await getCinemaChildIDsByShowDay(showday);
     const list = await Cinema.aggregate([{
         $lookup: {
@@ -77,36 +77,37 @@ const getShowByDate = async(showday) => {
             pipeline: [
                 {
                     $match: {
+                        // get cinemaChildID in arrayCinemaChildID
                         cinemaChildID: {
                             $in: arrayCinemaChildID
                         }
                     }
                 },
-            {
-                $lookup: {
-                    from: "Movie",
-                    localField: "listRoom.roomID",
-                    foreignField: "listShow.roomID",
-                    as: "listMovie",
-                    pipeline: [{
-                        $lookup: {
-                            from: "Show",
-                            localField: "listShow.cinemaChildID",
-                            foreignField: "cinemaChildID",
-                            as: "lstShowFlowMovie",
-                            pipeline: [
-                                {
-                                    $match: {showday:showday}
-                                }
-                            ]
-                        }
-                    }]
-                },
-            }]
+                {
+                    $lookup: {
+                        from: "Movie",
+                        localField: "listRoom.roomID",
+                        foreignField: "listShow.roomID",
+                        as: "listMovie",
+                        pipeline: [{
+                            $lookup: {
+                                from: "Show",
+                                localField: "listShow.cinemaChildID",
+                                foreignField: "cinemaChildID",
+                                as: "lstShowFlowMovie",
+                                pipeline: [
+                                    {
+                                        $match: { showday: showday }
+                                    }
+                                ]
+                            }
+                        }]
+                    },
+                }]
         }
     },
     {
-        $match: {"lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday}
+        $match: { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday }
     },
     {
         $project: {
@@ -131,7 +132,7 @@ const getShowByDate = async(showday) => {
     ]);
     return list;
 }
-const getLichChieuByMaCum = async(cinemaChildID) => {
+const getLichChieuByMaCum = async (cinemaChildID) => {
     const list = await Show.find({ cinemaChildID: cinemaChildID });
     return list;
 }
@@ -239,14 +240,14 @@ const getShowByShowID = async (showID) => {
     const show = await Show.findOne({ showID: showID });
     return show;
 }
-const getCinemaChildIDsByShowDay = async(showday) => {
-    const list = await Show.find({showday: showday});
+const getCinemaChildIDsByShowDay = async (showday) => {
+    const list = await Show.find({ showday: showday });
     let array = [];
-    for(let item of list) {
-        array.includes(item.cinemaChildID)? array=array: array.push(item.cinemaChildID);
+    for (let item of list) {
+        array.includes(item.cinemaChildID) ? array = array : array.push(item.cinemaChildID);
     }
     return array;
-    
+
 }
 module.exports = {
     createLichChieu,

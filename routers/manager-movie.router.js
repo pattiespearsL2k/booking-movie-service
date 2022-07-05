@@ -15,7 +15,7 @@ const {
 
 router.post('/ThemPhimUploadHinh', upload.single('image'), themPhim);
 
-router.post('/CapNhatPhim', isAuthenticated, checkRoleAdmin, suaPhim);
+router.post('/CapNhatPhim', upload.single('File'), isAuthenticated, checkRoleAdmin, suaPhim);
 
 router.get('/LayThongTinPhim', layThongTinPhim);
 
