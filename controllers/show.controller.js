@@ -11,7 +11,9 @@ const {
     getCinemaIDByUserId,
     getCinemaIDByRoomID,
     getShowByShowID,
-    getShowByDate
+    getShowByDate,
+    updateListShowByShowID,
+    deleteCouponByShowId
 } = require('../services');
 const moment = require('moment');
 const taoLichChieu = async (req, res) => {
@@ -140,7 +142,8 @@ const layThongTinLichChieuPhim = async (req, res) => {
 }
 const deleteShow = async (req, res) => {
     try {
-        const { showID } = req.query;
+        let { showID } = req.query;
+        showID = Number(showID);
         const user = req.user;
         if (user.role !== 'admin') {
             const cinemaID_1 = await getCinemaIDByUserId(user.id);
@@ -151,6 +154,8 @@ const deleteShow = async (req, res) => {
             }
         }
         await deleteShowById(showID);
+        await updateListShowByShowID(showID);
+        await deleteCouponByShowId(showID);
         return res.status(200).send("Xóa thành công!");
     } catch (err) {
         console.log(err);

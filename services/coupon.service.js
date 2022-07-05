@@ -24,8 +24,14 @@ const getListVeByTaiKhoan = async (taiKhoan) => {
     const list = await Coupon.find({ userAccount: taiKhoan });
     return list;
 }
-
+const deleteCouponByShowId = async (showID) => {
+    const listCoupon = await Coupon.find({showID: showID});
+    for(let item of listCoupon){
+        await Coupon.remove({couponID: item.couponID});
+    }
+}
 module.exports = {
     createVe,
-    getListVeByTaiKhoan
+    getListVeByTaiKhoan,
+    deleteCouponByShowId
 }

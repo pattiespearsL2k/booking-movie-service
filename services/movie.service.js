@@ -34,12 +34,23 @@ const getDanhSachPhim = async() => {
 const getPhimByMaLichChieu = async(maLichChieu) => {
     return await Movie.findOne({"listShow.showID": maLichChieu});
 }
-
+const updateListShowByShowID = async(showID) => {
+    const movie = await Movie.findOne({"listShow.showID": showID});
+    const array = Object.values(movie.listShow);
+    const newArray = array.filter(item => item.showID !== showID);
+    await Movie.updateOne(
+        {movieId: movie.movieId},
+        {
+            $set: {listShow: newArray}
+        }
+    );
+}
 module.exports = {
     createPhim,
     updatePhim,
     getPhimByMaPhim,
     deletePhim,
     getDanhSachPhim,
-    getPhimByMaLichChieu
+    getPhimByMaLichChieu,
+    updateListShowByShowID
 }
