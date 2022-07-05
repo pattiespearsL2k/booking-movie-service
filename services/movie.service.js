@@ -6,7 +6,7 @@ const createPhim = async(phim) => {
 }
 
 const updatePhim = async(phim) => {
-    await Movie.updateOne({ movie: phim.movieId }, {
+    await Movie.updateOne({ movie: Number(phim.movieId)}, {
         $set: (phim)
     });
 }
