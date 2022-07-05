@@ -26,9 +26,9 @@ const getNguoiDungByTaiKhoan = async(username) => {
 const getDanhSachNguoiDung = async(tuKhoa) => {
     let option;
     if (!tuKhoa) {
-        option = {};
+        option = {roleId: 3};
     } else {
-        option = {$text: { $search: tuKhoa }};
+        option = {roleId: 3,$text: { $search: tuKhoa }};
     }
     const list = await User.find(option, {
         password: 0,
