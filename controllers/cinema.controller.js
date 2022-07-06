@@ -1,8 +1,13 @@
 const { 
     getDanhSachHeThongRap,
     getCinemaByCinemaID,
-    getCinemaIDByUserId
+    getCinemaIDByUserId,
+    createCinema,
+    updateCinema,
+    deleteCinema
  } = require('../services');
+
+ const cloudinary = require('../utils/cloudinary');
 
 const layThongTinHeThongRap = async(req, res) => {
     try {
@@ -25,7 +30,59 @@ const layThongTinHeThongRapByUserID = async(req, res) => {
     }
 }
 
+const createNewCinema = async(req, res) => {
+    try {
+        const cinema = req.body;
+        const file = req.file;
+        const cinemaOld = await getCinemaByCinemaID(cinema.cinemaID);
+        if(cinemaOld) {
+            return res.status(400).send("cinemaID đã tồn tại");
+        }
+        if(file){
+            result = await cloudinary.uploader.upload(req.file.path);
+            cinema.logo = result.secure_url;
+        }else{
+            return res.status(400).send('logo chưa nhập!');
+        }
+        const newCinema = await createCinema(cinema);
+        return res.status(200).json(cinema);
+    }catch(err) {
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
+
+const updateCinemaByCinemaID = async (req, res) => {
+    try {
+        const cinema = req.body;
+        const file = req.file;
+        if(file){
+            result = await cloudinary.uploader.upload(req.file.path);
+            cinema.logo = result.secure_url;
+        }
+        await updateCinema(cinema);
+        return res.status(200).send("Cập nhật thành công !");
+    }catch(err) {
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
+
+const deleteCinemaByID = async(req, res) => {
+    try {
+        const {cinemaID} = req.query;
+        await deleteCinema(cinemaID);
+        return res.status(200).send("Xóa thành công !");
+    }catch(err) {
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
+
 module.exports = {
     layThongTinHeThongRap,
-    layThongTinHeThongRapByUserID
+    layThongTinHeThongRapByUserID,
+    createNewCinema,
+    updateCinemaByCinemaID,
+    deleteCinemaByID
 }

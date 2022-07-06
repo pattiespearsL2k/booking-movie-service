@@ -2,6 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
+const upload = require('../utils/multer');
 const {
     layThongTinCumRapTheoHeThong,
     layThongTinHeThongRap,
@@ -11,7 +12,11 @@ const {
     layThongTinHeThongRapByUserID,
     layThongTinLichChieuHeThongRapByShowDay,
     checkRoleQuanTri,
-    layThongTinLichChieuHeThongRapByShowDayAndManagerCinema
+    layThongTinLichChieuHeThongRapByShowDayAndManagerCinema,
+    checkRoleAdmin,
+    createNewCinema,
+    updateCinemaByCinemaID,
+    deleteCinemaByID
 } = require('../controllers');
 
 router.get('/LayThongTinHeThongRap', layThongTinHeThongRap);
@@ -21,7 +26,7 @@ router.get('/LayThongTinLichChieuHeThongRap', layThongTinLichChieuHeThongRap);
 router.get('/LayThongTinLichChieuHeThongRapTheoNgay', layThongTinLichChieuHeThongRapByShowDay);
 router.get('/LayThongTinHeThongRapByUserID', isAuthenticated, layThongTinHeThongRapByUserID);
 router.get('/LayThongTinLichChieuHeThongRapTheoNgayVaTheoRap', isAuthenticated, checkRoleQuanTri, layThongTinLichChieuHeThongRapByShowDayAndManagerCinema);
-
-
-
+router.post('/TaoHeThongRap', upload.single('logo'), isAuthenticated, checkRoleAdmin, createNewCinema);
+router.put('/CapNhatThongTinHeThong', upload.single('logo'),isAuthenticated, checkRoleAdmin, updateCinemaByCinemaID);
+router.delete('/XoaHeThongRap', isAuthenticated, checkRoleAdmin, deleteCinemaByID);
 module.exports = router;

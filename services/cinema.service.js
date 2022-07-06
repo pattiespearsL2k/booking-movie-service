@@ -1,7 +1,7 @@
 const { Cinema } = require('../models');
 
 const getDanhSachHeThongRap = async() => {
-    const list = await Cinema.find({}, {
+    const list = await Cinema.find({isDelete: false}, {
         _id: 0,
         __v: 0
     });
@@ -35,8 +35,32 @@ const getCinemaByCinemaID = async(cinemaID) => {
     return Object.values(cinema)[0];
 }
 
+const createCinema = async (cinema) => {
+    const newCinema = await new Cinema(cinema).save();
+    return newCinema;
+}
 
+const updateCinema = async (cinema) => {
+    await Cinema.updateOne(
+        {cinemaID: cinema.cinemaID},
+        {
+            $set: (cinema)
+        }
+    );
+}
+
+const deleteCinema  = async (cinemaID) => {
+    await Cinema.updateOne(
+        {cinemaID: cinemaID},
+        {
+            $set: {isDelete:  true}
+        }
+    )
+}
 module.exports = {
     getDanhSachHeThongRap,
-    getCinemaByCinemaID
+    getCinemaByCinemaID,
+    updateCinema,
+    deleteCinema,
+    createCinema
 }

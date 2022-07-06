@@ -11,6 +11,10 @@ const cinemaSchema = new mongoose.Schema({
    },
    aliases: {
     type: String
+   },
+   isDelete: {
+    type: Boolean,
+    default: false
    }
 });
 const Cinema = mongoose.model("Cinema", cinemaSchema, "Cinema");
