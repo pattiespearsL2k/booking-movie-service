@@ -15,6 +15,10 @@ const cinemaChildSchema = new mongoose.Schema({
     },
     cinemaID: {
         type: String
+    },
+    isDelete: {
+        type: Boolean,
+        default: false
     }
 });
 const CinemaChild = mongoose.model("CinemaChild", cinemaChildSchema, "CinemaChild");

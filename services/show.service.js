@@ -67,6 +67,7 @@ const getThongTinLichChieuTheoHeThongRap = async () => {
     return list;
 };
 const getShowByDate = async (showday, cinemaID) => {
+    const nowDay = new Date();
     let options= { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday }
     if(cinemaID){
        options =  { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday, cinemaID: cinemaID }
