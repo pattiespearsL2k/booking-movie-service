@@ -13,6 +13,7 @@ const updatePhim = async(phim) => {
 
 const getPhimByMaPhim = async(maPhim) => {
     const phim = await Movie.findOne({ movieId: maPhim }, {
+        isDelete: 0,
         __v: 0,
         _id: 0
     });
@@ -20,11 +21,18 @@ const getPhimByMaPhim = async(maPhim) => {
 }
 
 const deletePhim = async(maPhim) => {
-    await Movie.findOne({ movieId: maPhim }).remove();
+    // await Movie.findOne({ movieId: maPhim }).remove();
+    await Movie.updateOne(
+        {movieId: maPhim},
+        {
+            $set: {isDelete: true}
+        }
+    );
 }
 
 const getDanhSachPhim = async() => {
-    const list = await Movie.find({}, {
+    const list = await Movie.find({isDelete: false}, {
+        isDelete: 0,
         __v: 0,
         _id: 0
     });
