@@ -71,10 +71,6 @@ const getShowByDate = async (showday, cinemaID, movieId) => {
     if(cinemaID){
        options =  { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday, cinemaID: cinemaID }
     }
-    let optionShow = { showday: showday};
-    if(movieId){
-        optionShow = {showday: showday, movieId: movieId}
-    }
     const arrayCinemaChildID = await getCinemaChildIDsByShowDay(showday);
     const list = await Cinema.aggregate([{
         $lookup: {
@@ -97,7 +93,11 @@ const getShowByDate = async (showday, cinemaID, movieId) => {
                         localField: "listRoom.roomID",
                         foreignField: "listShow.roomID",
                         as: "listMovie",
-                        pipeline: [{
+                        pipeline: [
+                            {
+                                $match: {movieId: movieId}
+                            },
+                            {
                             $lookup: {
                                 from: "Show",
                                 localField: "listShow.cinemaChildID",
@@ -105,7 +105,7 @@ const getShowByDate = async (showday, cinemaID, movieId) => {
                                 as: "lstShowFlowMovie",
                                 pipeline: [
                                     {
-                                        $match: optionShow
+                                        $match: { showday: showday}
                                     }
                                 ]
                             }
