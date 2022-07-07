@@ -67,7 +67,6 @@ const getThongTinLichChieuTheoHeThongRap = async () => {
     return list;
 };
 const getShowByDate = async (showday, cinemaID) => {
-    const nowDay = new Date();
     let options= { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday }
     if(cinemaID){
        options =  { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday, cinemaID: cinemaID }
@@ -102,7 +101,7 @@ const getShowByDate = async (showday, cinemaID) => {
                                 as: "lstShowFlowMovie",
                                 pipeline: [
                                     {
-                                        $match: { showday: showday }
+                                        $match: { showday: showday}
                                     }
                                 ]
                             }
@@ -197,6 +196,9 @@ const getDanhSachPhongVe = async (showID) => {
 }
 const getDanhSachHeThongRapByMaPhim = async (maPhim, showday) => {
     let options = {movieId: maPhim};
+    const  daynow = new Date();
+    const timeNow = moment(daynow).format('hh:mm:ss');
+    const arrayCinemaChildID = await getCinemaChildIDsByShowDay(showday);
     if(showday){
         options = {showday: showday, movieId: maPhim}
     }
@@ -206,7 +208,16 @@ const getDanhSachHeThongRapByMaPhim = async (maPhim, showday) => {
             localField: "cinemaID",
             foreignField: "cinemaID",
             as: "cumRapChieu",
-            pipeline: [{
+            pipeline: [
+                {
+                    $match: {
+                        // get cinemaChildID in arrayCinemaChildID
+                        cinemaChildID: {
+                            $in: arrayCinemaChildID
+                        }
+                    }
+                },
+                {
                 $lookup: {
                     from: "Show",
                     localField: "cinemaChildID",
@@ -234,7 +245,6 @@ const getDanhSachHeThongRapByMaPhim = async (maPhim, showday) => {
             biDanh: 0,
             "cumRapChieu._id": 0,
             "cumRapChieu.cinemaID": 0,
-            "cumRapChieu.address": 0,
             "cumRapChieu.lichChieuPhim._id": 0,
             "cumRapChieu.lichChieuPhim.__v": 0,
             "cumRapChieu.lichChieuPhim.cinemaChildID": 0
