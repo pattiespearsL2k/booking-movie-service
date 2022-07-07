@@ -195,7 +195,11 @@ const getDanhSachPhongVe = async (showID) => {
     }
     return data;
 }
-const getDanhSachHeThongRapByMaPhim = async (maPhim) => {
+const getDanhSachHeThongRapByMaPhim = async (maPhim, showday) => {
+    let options = {movieId: maPhim};
+    if(showday){
+        options = {showday: showday, movieId: maPhim}
+    }
     const list = await Cinema.aggregate([{
         $lookup: {
             from: "CinemaChild",
@@ -207,7 +211,12 @@ const getDanhSachHeThongRapByMaPhim = async (maPhim) => {
                     from: "Show",
                     localField: "cinemaChildID",
                     foreignField: "cinemaChildID",
-                    as: "lichChieuPhim"
+                    as: "lichChieuPhim",
+                    pipeline: [
+                        {
+                            $match: options
+                        }
+                    ]
                 },
             }]
         }

@@ -139,8 +139,8 @@ const layDanhSachPhongVe = async(req, res) => {
 }
 const layThongTinLichChieuPhim = async (req, res) => {
     try {
-        const { movieId } = req.query;
-        const list = await getDanhSachHeThongRapByMaPhim(Number(movieId));
+        const { movieId, showday } = req.query;
+        const list = await getDanhSachHeThongRapByMaPhim(Number(movieId), showday);
         const phim = await getPhimByMaPhim(Number(movieId));
         const data = {
             movieId: phim.movieId,
