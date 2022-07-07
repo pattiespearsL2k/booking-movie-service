@@ -66,10 +66,14 @@ const getThongTinLichChieuTheoHeThongRap = async () => {
     ]);
     return list;
 };
-const getShowByDate = async (showday, cinemaID) => {
+const getShowByDate = async (showday, cinemaID, movieId) => {
     let options= { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday }
     if(cinemaID){
        options =  { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday, cinemaID: cinemaID }
+    }
+    let optionShow = { showday: showday};
+    if(movieId){
+        optionShow = {showday: showday, movieId: movieId}
     }
     const arrayCinemaChildID = await getCinemaChildIDsByShowDay(showday);
     const list = await Cinema.aggregate([{
@@ -101,7 +105,7 @@ const getShowByDate = async (showday, cinemaID) => {
                                 as: "lstShowFlowMovie",
                                 pipeline: [
                                     {
-                                        $match: { showday: showday}
+                                        $match: optionShow
                                     }
                                 ]
                             }

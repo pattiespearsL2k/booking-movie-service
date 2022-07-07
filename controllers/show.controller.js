@@ -108,8 +108,8 @@ const layThongTinLichChieuHeThongRapByShowDayAndManagerCinema = async(req, res) 
     try {
         const user = req.user;
         const cinemaID = await getCinemaIDByUserId(user.id);
-        const {showday} = req.query;
-        const list = await getShowByDate(showday, cinemaID);
+        const {showday, movieId} = req.query;
+        const list = await getShowByDate(showday, cinemaID, Number(movieId));
         for (let heThong of list) {
             for (let cum of heThong.lstCinemaChild) {
                 for (let phim of cum.listMovie) {
