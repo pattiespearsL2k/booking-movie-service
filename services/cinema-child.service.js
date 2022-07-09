@@ -62,11 +62,19 @@ const deleteCinemaChildByID = async(cinemaChildID) => {
         }
     )
 }
+const getCinemaChildByCinemaChildID = async(cinemaChildID) => {
+    const cinemaChild = await CinemaChild.findOne({cinemaChildID: cinemaChildID},{
+        __v:0,
+        _id: 0
+    });
+    return cinemaChild;
+}
 module.exports = {
     getCumRapTheoMaHeThong,
     getTenRapByMaRap,
     getCinemaIDByRoomID,
     createCinemaChild,
     updateCinemaChildByID,
-    deleteCinemaChildByID
+    deleteCinemaChildByID,
+    getCinemaChildByCinemaChildID
 }

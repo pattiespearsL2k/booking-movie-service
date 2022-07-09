@@ -19,7 +19,9 @@ const {
     deleteCinemaByID,
     createNewCinemaChild,
     updateCinemaChild,
-    deleteCinemaChild
+    deleteCinemaChild,
+    getCinemaByID,
+    getCinemaChildByID
 } = require('../controllers');
 
 router.get('/LayThongTinHeThongRap', layThongTinHeThongRap);
@@ -36,4 +38,7 @@ router.delete('/XoaHeThongRap', isAuthenticated, checkRoleAdmin, deleteCinemaByI
 router.post('/ThemCumRap', isAuthenticated, checkRoleQuanTri, createNewCinemaChild);
 router.put('/CapNhatCumRap', isAuthenticated, checkRoleQuanTri, updateCinemaChild);
 router.delete('/XoaCumRap', isAuthenticated, checkRoleQuanTri, deleteCinemaChild);
+
+router.get('/LayThongTinChiTietHeThongRap',getCinemaByID);
+router.get('/LayThongTinChiTietCumRap', getCinemaChildByID);
 module.exports = router;

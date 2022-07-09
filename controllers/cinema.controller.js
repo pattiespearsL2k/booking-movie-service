@@ -78,11 +78,27 @@ const deleteCinemaByID = async(req, res) => {
         return res.status(400).json(err);
     }
 }
+const getCinemaByID = async(req, res) => {
+    try {
+        const {cinemaID} = req.query;
+        const cinema = await getCinemaByCinemaID(cinemaID);
+        return res.status(200).json({
+            cinemaID: cinema.cinemaID,
+            name: cinema.name,
+            logo: cinema.logo,
+            aliases: cinema.aliases
+        });
+    }catch(err) {
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
 
 module.exports = {
     layThongTinHeThongRap,
     layThongTinHeThongRapByUserID,
     createNewCinema,
     updateCinemaByCinemaID,
-    deleteCinemaByID
+    deleteCinemaByID,
+    getCinemaByID
 }

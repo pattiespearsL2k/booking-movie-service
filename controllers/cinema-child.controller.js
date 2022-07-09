@@ -4,7 +4,8 @@ const {
     createCinemaChild,
     updateCinemaChildByID,
     deleteCinemaChildByID,
-    getCinemaByCinemaID
+    getCinemaByCinemaID,
+    getCinemaChildByCinemaChildID
 } = require('../services');
 
 const layThongTinCumRapTheoHeThong = async(req, res) => {
@@ -51,10 +52,21 @@ const deleteCinemaChild = async (req, res) => {
         return res.status(400).json(err);
     }
 }
+const getCinemaChildByID = async (req, res) => {
+    try {
+        const {cinemaChildID} = req.query;
+        const cinemaChild = await getCinemaChildByCinemaChildID(cinemaChildID);
+        return res.status(200).json(cinemaChild);
+    }catch(err){
+        console.log(err);
+        return res.status(400).json(err);
+    }
+}
 
 module.exports = {
     layThongTinCumRapTheoHeThong,
     createNewCinemaChild,
     updateCinemaChild,
-    deleteCinemaChild
+    deleteCinemaChild,
+    getCinemaChildByID
 }

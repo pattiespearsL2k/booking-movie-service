@@ -3,7 +3,7 @@ const AutoIncrement = require('mongoose-sequence')(mongoose);
 const couponSchema = new mongoose.Schema({
    bookingDate: {
     type: Date,
-    default: new Date()
+    default: (new Date())
    },
    titleMovie: {
     type: String
