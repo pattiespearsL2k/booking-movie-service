@@ -13,6 +13,7 @@ const createVe = async (ve) => {
     }
     const data = await new Coupon({
         showID: ve.showID,
+        bookingDate: new Date(),
         titleMovie: ve.titleMovie,
         price: giaVe,
         listChair: dsGhe,
@@ -25,9 +26,9 @@ const getListVeByTaiKhoan = async (taiKhoan) => {
     return list;
 }
 const deleteCouponByShowId = async (showID) => {
-    const listCoupon = await Coupon.find({showID: showID});
-    for(let item of listCoupon){
-        await Coupon.remove({couponID: item.couponID});
+    const listCoupon = await Coupon.find({ showID: showID });
+    for (let item of listCoupon) {
+        await Coupon.remove({ couponID: item.couponID });
     }
 }
 module.exports = {
