@@ -25,7 +25,7 @@ const {
 } = require('../controllers');
 
 router.get('/LayThongTinHeThongRap', layThongTinHeThongRap);
-router.get('/LayThongTinCumRapTheoHeThong', layThongTinCumRapTheoHeThong);
+router.get('/LayThongTinCumRapTheoHeThong', isAuthenticated, checkRoleQuanTri, layThongTinCumRapTheoHeThong);
 router.get('/LayThongTinLichChieuPhim', layThongTinLichChieuPhim);
 router.get('/LayThongTinLichChieuHeThongRap', layThongTinLichChieuHeThongRap);
 router.get('/LayThongTinLichChieuHeThongRapTheoNgay', layThongTinLichChieuHeThongRapByShowDay);

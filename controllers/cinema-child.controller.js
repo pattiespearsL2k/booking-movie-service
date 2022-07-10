@@ -12,8 +12,9 @@ const {
 
 const layThongTinCumRapTheoHeThong = async (req, res) => {
     try {
-        const { maHeThongRap } = req.query;
-        const list = await getCumRapTheoMaHeThong(maHeThongRap);
+        const user = req.user;
+        const cinemaID = await getCinemaIDByUserId(user.id);
+        const list = await getCumRapTheoMaHeThong(cinemaID);
         return res.status(200).json(list);
     } catch (err) {
         console.log(err);
