@@ -1,7 +1,6 @@
 const { CinemaChild, Cinema } = require('../models');
 const uuid = require('uuid');
 const rn = require('random-number');
-const { array } = require('../utils/multer');
 const getCumRapTheoMaHeThong = async(cinemaID) => {
     const list = await CinemaChild.find({ cinemaID: cinemaID, isDelete: false }, {
         _id: 0,
@@ -76,5 +75,5 @@ module.exports = {
     createCinemaChild,
     updateCinemaChildByID,
     deleteCinemaChildByID,
-    getCinemaChildByCinemaChildID
+    getCinemaChildByCinemaChildID,
 }

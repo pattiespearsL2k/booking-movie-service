@@ -21,7 +21,7 @@ const {
     updateCinemaChild,
     deleteCinemaChild,
     getCinemaByID,
-    getCinemaChildByID
+    getCinemaChildByID,
 } = require('../controllers');
 
 router.get('/LayThongTinHeThongRap', layThongTinHeThongRap);

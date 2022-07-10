@@ -5,7 +5,9 @@ const {
     updateCinemaChildByID,
     deleteCinemaChildByID,
     getCinemaByCinemaID,
-    getCinemaChildByCinemaChildID
+    getCinemaChildByCinemaChildID,
+    getCinemaIDByUserId,
+    getCinemaChildByCinemaID
 } = require('../services');
 
 const layThongTinCumRapTheoHeThong = async (req, res) => {
@@ -20,10 +22,18 @@ const layThongTinCumRapTheoHeThong = async (req, res) => {
 }
 const createNewCinemaChild = async (req, res) => {
     try {
+        const user = req.user;
         const cinemaChild = req.body;
         const cinema = await getCinemaByCinemaID(cinemaChild.cinemaID);
         if (!cinema) {
             return res.status(400).send("cinemaID không tồn tại!");
+        }
+        if(user !== 'admin'){
+            const cinemaID_1 = await getCinemaIDByUserId(user.id);
+            const cinemaID_2 = await cinemaChild.cinemaID;
+            if(cinemaID_1 !== cinemaID_2) {
+                return res.status(400).send("Bạn không có quyền!");
+            }
         }
         const newCinemaChild = await createCinemaChild(cinemaChild);
         return res.status(200).json(newCinemaChild);
@@ -36,6 +46,14 @@ const createNewCinemaChild = async (req, res) => {
 const updateCinemaChild = async (req, res) => {
     try {
         const cinemaChild = req.body;
+        const user = req.user;
+        if(user !== 'admin'){
+            const cinemaID_1 = await getCinemaIDByUserId(user.id);
+            const cinemaID_2 = await cinemaChild.cinemaID;
+            if(cinemaID_1 !== cinemaID_2) {
+                return res.status(400).send("Bạn không có quyền!");
+            }
+        }
         await updateCinemaChildByID(cinemaChild);
         return res.status(200).send("Cập nhật thành công");
     } catch (err) {
@@ -47,6 +65,15 @@ const updateCinemaChild = async (req, res) => {
 const deleteCinemaChild = async (req, res) => {
     try {
         const { cinemaChildID } = req.query;
+        const user = req.user;
+        const cinemaChild = await getCinemaChildByCinemaChildID(cinemaChildID);
+        if(user !== 'admin'){
+            const cinemaID_1 = await getCinemaIDByUserId(user.id);
+            const cinemaID_2 = await cinemaChild.cinemaID;
+            if(cinemaID_1 !== cinemaID_2) {
+                return res.status(400).send("Bạn không có quyền!");
+            }
+        }
         await deleteCinemaChildByID(cinemaChildID);
         return res.status(200).send("Xoá thành công");
     } catch (err) {
@@ -64,11 +91,10 @@ const getCinemaChildByID = async (req, res) => {
         return res.status(400).json(err);
     }
 }
-
 module.exports = {
     layThongTinCumRapTheoHeThong,
     createNewCinemaChild,
     updateCinemaChild,
     deleteCinemaChild,
-    getCinemaChildByID
+    getCinemaChildByID,
 }
