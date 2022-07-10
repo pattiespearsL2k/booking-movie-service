@@ -9,7 +9,7 @@ const show = require('./show.controller');
 
 const coupon = require('./coupon.controller');
 const review = require('./review.controller');
-
+const payment = require('./payment.controller');
 module.exports = {
     ...auth,
     ...role,
@@ -19,5 +19,6 @@ module.exports = {
     ...cinemaChild,
     ...show,
     ...coupon,
-    ...review
+    ...review,
+    ...payment
 }

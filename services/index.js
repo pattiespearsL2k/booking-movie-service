@@ -12,7 +12,7 @@ const cinemaChild = require('./cinema-child.service');
 const show = require('./show.service');
 const chair = require('./chair.service');
 const coupon = require('./coupon.service');
-
+const payment = require('./payment.service');
 
 const review = require('./review.service');
 module.exports = {
@@ -24,5 +24,6 @@ module.exports = {
     ...show,
     ...chair,
     ...coupon,
-    ...review
+    ...review,
+    ...payment
 }

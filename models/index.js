@@ -8,6 +8,7 @@ const coupon = require('./coupon.model');
 const review = require('./reviews.model');
 const chair = require('./chair.model');
 const manager = require('./manager.model');
+const payment = require('./payment.model');
 module.exports = {
     ...role,
     ...user,
@@ -18,5 +19,6 @@ module.exports = {
     ...chair,
     ...coupon,
     ...review,
-    ...manager
+    ...manager,
+    ...payment
 }
