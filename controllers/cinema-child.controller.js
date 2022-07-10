@@ -12,9 +12,15 @@ const {
 
 const layThongTinCumRapTheoHeThong = async (req, res) => {
     try {
+        const {maHeThongRap} = req.query;
         const user = req.user;
-        const cinemaID = await getCinemaIDByUserId(user.id);
-        const list = await getCumRapTheoMaHeThong(cinemaID);
+        let list;
+        if(user.role !== 'admin'){
+            const cinemaID = await getCinemaIDByUserId(user.id);
+            list = await getCumRapTheoMaHeThong(cinemaID);
+        }else{
+            list = await getCumRapTheoMaHeThong(maHeThongRap);
+        }
         return res.status(200).json(list);
     } catch (err) {
         console.log(err);
