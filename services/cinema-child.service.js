@@ -37,9 +37,12 @@ const createCinemaChild = async(cinemaChild) => {
       , max:  1000000
       , integer: true
     }
-    for(let item of cinemaChild.listRoom){
-        item.romID = rn(options); 
-        arrayRoom.push(item);
+    for(let item of cinemaChild.listRoom.roomName){
+        let roomID = rn(options); 
+        arrayRoom.push({
+            roomID: roomID,
+            roomName: item
+        });
     }
     cinemaChild.listRoom = arrayRoom;
     const newCinemaChild = await new CinemaChild(cinemaChild).save();

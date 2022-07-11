@@ -31,17 +31,8 @@ const createNewCinemaChild = async (req, res) => {
     try {
         const user = req.user;
         const cinemaChild = req.body;
-        const cinema = await getCinemaByCinemaID(cinemaChild.cinemaID);
-        if (!cinema) {
-            return res.status(400).send("cinemaID không tồn tại!");
-        }
-        if(user !== 'admin'){
-            const cinemaID_1 = await getCinemaIDByUserId(user.id);
-            const cinemaID_2 = await cinemaChild.cinemaID;
-            if(cinemaID_1 !== cinemaID_2) {
-                return res.status(400).send("Bạn không có quyền!");
-            }
-        }
+        const cinemaID_1 = await getCinemaIDByUserId(user.id);
+        cinemaChild.cinemaID = cinemaID_1;
         const newCinemaChild = await createCinemaChild(cinemaChild);
         return res.status(200).json(newCinemaChild);
     } catch (err) {
