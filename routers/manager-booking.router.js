@@ -9,8 +9,8 @@ const {
     layDanhSachPhongVe,
     deleteShow,
     datVe,
-    createNewPayment,
-    getListPayment
+    getListPayment,
+    getDetailCoupon
 } = require('../controllers');
 
 router.post('/TaoLichChieu', isAuthenticated, checkRoleQuanTri, taoLichChieu);
@@ -21,8 +21,8 @@ router.delete('/XoaLichChieu', isAuthenticated,checkRoleQuanTri,deleteShow);
 
 router.post('/DatVe',isAuthenticated,datVe);
 
-router.post('/ThanhToan', isAuthenticated, createNewPayment);
-
 router.get('/LayDanhSachThanhToan', isAuthenticated, checkRoleQuanTri, getListPayment);
+
+router.get('/LayThongTinChiTietVe', getDetailCoupon);
 
 module.exports = router;

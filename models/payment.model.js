@@ -4,13 +4,13 @@ const paymentSchema = new mongoose.Schema({
     cardCredit: {
         type: String
     },
-    userAcount: {
+    userAccount: {
         type: String
     },
     totalPrice: {
         type: Number
     },
-    couponId: {
+    couponID: {
         type: Number
     },
     paymentDate: {
@@ -20,6 +20,9 @@ const paymentSchema = new mongoose.Schema({
         type: Number
     },
     cardIssueDate: {
+        type: String
+    },
+    cardName: {
         type: String
     }
 });
