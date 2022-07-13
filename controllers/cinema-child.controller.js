@@ -45,13 +45,8 @@ const updateCinemaChild = async (req, res) => {
     try {
         const cinemaChild = req.body;
         const user = req.user;
-        if(user !== 'admin'){
-            const cinemaID_1 = await getCinemaIDByUserId(user.id);
-            const cinemaID_2 = await cinemaChild.cinemaID;
-            if(cinemaID_1 !== cinemaID_2) {
-                return res.status(400).send("Bạn không có quyền!");
-            }
-        }
+        const cinemaID = await getCinemaIDByUserId(user.id);
+        cinemaChild.cinemaID = cinemaID;
         await updateCinemaChildByID(cinemaChild);
         return res.status(200).send("Cập nhật thành công");
     } catch (err) {
