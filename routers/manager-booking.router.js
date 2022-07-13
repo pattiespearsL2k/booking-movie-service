@@ -1,7 +1,5 @@
 const express = require('express');
-
 const router = express.Router();
-
 const {
     taoLichChieu,
     isAuthenticated,
@@ -17,9 +15,9 @@ router.post('/TaoLichChieu', isAuthenticated, checkRoleQuanTri, taoLichChieu);
 
 router.get('/LayDanhSachPhongVe', layDanhSachPhongVe);
 
-router.delete('/XoaLichChieu', isAuthenticated,checkRoleQuanTri,deleteShow);
+router.delete('/XoaLichChieu', isAuthenticated, checkRoleQuanTri, deleteShow);
 
-router.post('/DatVe',isAuthenticated,datVe);
+router.post('/DatVe', isAuthenticated, datVe);
 
 router.post('/ThanhToan', isAuthenticated, createNewPayment);
 
