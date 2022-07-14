@@ -84,7 +84,7 @@ const getCouponByID = async (couponID) => {
         {
             $project: {
                 "chair._id" : 0,
-                "chair.chairName": 0,
+                "chair.roomName": 0,
                 "chair.roomID": 0,
                 "chair.typeChair": 0,
                 "chair.stt": 0,
