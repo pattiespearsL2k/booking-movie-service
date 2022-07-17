@@ -9,7 +9,10 @@ const {
     deleteNguoiDungByTaiKhoan,
     getListVeByTaiKhoan,
     getGhebyMaGhe,
-    getRoleByRoleId
+    getRoleByRoleId,
+    checkCinema,
+    getCinemaIDByUserId,
+    checkCinema
 } = require('../services');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
@@ -46,6 +49,13 @@ const dangNhapNguoiDung = async (req, res) => {
         let isCorrectPass = await bcrypt.compare(password, nguoiDung.password);
         if (!isCorrectPass) {
             return res.status(400).send("Tài khoản hoặc mật khẩu không đúng!");
+        }
+        if(nguoiDung.roleId === 2){
+            const cinemaID = await getCinemaIDByUserId(nguoiDung.userId);
+            const checkCinema = await checkCinema(cinemaID);
+            if(!checkCinema){
+                return res.status(400).json("Cinema của user không tồn tại");
+            }
         }
         const role = await getRoleByRoleId(nguoiDung.roleId);
         const accessToken = signAccessToken(nguoiDung.userId, role, username);
