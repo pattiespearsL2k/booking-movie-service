@@ -50,7 +50,7 @@ const createCinemaChild = async(cinemaChild) => {
 }
 const updateCinemaChildByID = async (cinemaChild) => {
     await CinemaChild.updateOne(
-        {cinemaChildID: cinemaChild.cinemaChildID},
+        {cinemaChildID: cinemaChild.cinemaChildID, isDelete: false},
         {
             $set: (cinemaChild)
         }
@@ -58,7 +58,7 @@ const updateCinemaChildByID = async (cinemaChild) => {
 }
 const deleteCinemaChildByID = async(cinemaChildID) => {
     await CinemaChild.updateOne(
-        {cinemaChildID: cinemaChildID},
+        {cinemaChildID: cinemaChildID, isDelete: false},
         {
             $set: {isDelete: true}
         }
