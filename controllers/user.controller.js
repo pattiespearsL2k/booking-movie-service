@@ -12,7 +12,6 @@ const {
     getRoleByRoleId,
     checkCinema,
     getCinemaIDByUserId,
-    checkCinema
 } = require('../services');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
@@ -52,8 +51,8 @@ const dangNhapNguoiDung = async (req, res) => {
         }
         if(nguoiDung.roleId === 2){
             const cinemaID = await getCinemaIDByUserId(nguoiDung.userId);
-            const checkCinema = await checkCinema(cinemaID);
-            if(!checkCinema){
+            const check = await checkCinema(cinemaID);
+            if(!check){
                 return res.status(400).json("Cinema của user không tồn tại");
             }
         }
