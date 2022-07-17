@@ -214,14 +214,6 @@ const getDanhSachHeThongRapByMaPhim = async (maPhim, showday) => {
             as: "cumRapChieu",
             pipeline: [
                 {
-                    $match: {
-                        // get cinemaChildID in arrayCinemaChildID
-                        cinemaChildID: {
-                            $in: arrayCinemaChildID
-                        }
-                    }
-                },
-                {
                 $lookup: {
                     from: "Show",
                     localField: "cinemaChildID",
@@ -233,7 +225,16 @@ const getDanhSachHeThongRapByMaPhim = async (maPhim, showday) => {
                         }
                     ]
                 },
-            }]
+            },
+            {
+                $match: {
+                    // get cinemaChildID in arrayCinemaChildID
+                    cinemaChildID: {
+                        $in: arrayCinemaChildID
+                    }
+                }
+            }
+        ]
         }
     },
     {
