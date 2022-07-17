@@ -32,7 +32,7 @@ router.get('/LayThongTinLichChieuHeThongRapTheoNgay', layThongTinLichChieuHeThon
 router.get('/LayThongTinHeThongRapByUserID', isAuthenticated, layThongTinHeThongRapByUserID);
 router.get('/LayThongTinLichChieuHeThongRapTheoNgayVaTheoRap', isAuthenticated, checkRoleQuanTri, layThongTinLichChieuHeThongRapByShowDayAndManagerCinema);
 router.post('/TaoHeThongRap', upload.single('logo'), isAuthenticated, checkRoleAdmin, createNewCinema);
-router.put('/CapNhatThongTinHeThong', upload.single('logo'), isAuthenticated, checkRoleAdmin, updateCinemaByCinemaID);
+router.put('/CapNhatThongTinHeThong', upload.single('File'), isAuthenticated, checkRoleAdmin, updateCinemaByCinemaID);
 router.delete('/XoaHeThongRap', isAuthenticated, checkRoleAdmin, deleteCinemaByID);
 router.post('/ThemCumRap', isAuthenticated, checkRoleQuanTri, createNewCinemaChild);
 router.put('/CapNhatCumRap', isAuthenticated, checkRoleQuanTri, updateCinemaChild);
