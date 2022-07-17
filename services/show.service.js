@@ -71,7 +71,7 @@ const getShowByDate = async (showday, cinemaID, movieId) => {
     if(cinemaID){
        options =  { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday, cinemaID: cinemaID }
     }
-    const arrayCinemaChildID = await getCinemaChildIDsByShowDay(showday);
+    const arrayCinemaChildID = await getCinemaChildIDsByShowDayAndMovieID(showday);
     const list = await Cinema.aggregate([{
         $lookup: {
             from: "CinemaChild",
@@ -200,9 +200,7 @@ const getDanhSachPhongVe = async (showID) => {
 }
 const getDanhSachHeThongRapByMaPhim = async (maPhim, showday) => {
     let options = {movieId: maPhim};
-    const  daynow = new Date();
-    const timeNow = moment(daynow).format('hh:mm:ss');
-    const arrayCinemaChildID = await getCinemaChildIDsByShowDay(showday);
+    const arrayCinemaChildID = await getCinemaChildIDsByShowDayAndMovieID(showday, maPhim);
     if(showday){
         options = {showday: showday, movieId: maPhim}
     }
@@ -269,8 +267,8 @@ const getShowByShowID = async (showID) => {
     const show = await Show.findOne({ showID: showID });
     return show;
 }
-const getCinemaChildIDsByShowDay = async (showday) => {
-    const list = await Show.find({ showday: showday });
+const getCinemaChildIDsByShowDayAndMovieID = async (showday, movieId) => {
+    const list = await Show.find({ showday: showday, movieId:  movieId});
     let array = [];
     for (let item of list) {
         array.includes(item.cinemaChildID) ? array = array : array.push(item.cinemaChildID);
