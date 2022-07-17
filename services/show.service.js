@@ -71,7 +71,7 @@ const getShowByDate = async (showday, cinemaID, movieId) => {
     if(cinemaID){
        options =  { "lstCinemaChild.listMovie.lstShowFlowMovie.showday": showday, cinemaID: cinemaID }
     }
-    const arrayCinemaChildID = await getCinemaChildIDsByShowDayAndMovieID(showday);
+    const arrayCinemaChildID = await getCinemaChildIDsByShowDayAndMovieID(showday, movieId);
     const list = await Cinema.aggregate([{
         $lookup: {
             from: "CinemaChild",
