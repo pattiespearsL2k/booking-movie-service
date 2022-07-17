@@ -19,7 +19,8 @@ const getCinemaByCinemaID = async(cinemaID) => {
         },
         {
             $match: {
-                cinemaID: cinemaID
+                cinemaID: cinemaID,
+                isDeleted: false
             }
         },
         {
