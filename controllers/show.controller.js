@@ -178,7 +178,6 @@ const deleteShow = async (req, res) => {
         }
         await deleteShowById(showID);
         await updateListShowByShowID(showID);
-        await deleteCouponByShowId(showID);
         return res.status(200).send("Xóa thành công!");
     } catch (err) {
         console.log(err);
