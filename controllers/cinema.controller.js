@@ -4,7 +4,8 @@ const {
     getCinemaIDByUserId,
     createCinema,
     updateCinema,
-    deleteCinema
+    deleteCinema,
+    checkCinema
  } = require('../services');
 
  const cloudinary = require('../utils/cloudinary');
@@ -34,7 +35,7 @@ const createNewCinema = async(req, res) => {
     try {
         const cinema = req.body;
         const file = req.file;
-        const cinemaOld = await getCinemaByCinemaID(cinema.cinemaID);
+        const cinemaOld = await checkCinema(cinema.cinemaID);
         if(cinemaOld) {
             return res.status(400).send("cinemaID đã tồn tại");
         }

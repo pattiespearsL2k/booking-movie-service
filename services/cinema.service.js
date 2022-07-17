@@ -19,8 +19,7 @@ const getCinemaByCinemaID = async(cinemaID) => {
         },
         {
             $match: {
-                cinemaID: cinemaID,
-                isDeleted: false
+                cinemaID: cinemaID
             }
         },
         {
@@ -34,6 +33,14 @@ const getCinemaByCinemaID = async(cinemaID) => {
         }
     ])
     return Object.values(cinema)[0];
+}
+const checkCinema = async(cinemaID) => {
+    const cinema = await Cinema.findOne({cinemaID: cinemaID, isDelete: false});
+    if(cinema){
+        return true
+    }else{
+        return false;
+    }
 }
 
 const createCinema = async (cinema) => {
@@ -63,5 +70,6 @@ module.exports = {
     getCinemaByCinemaID,
     updateCinema,
     deleteCinema,
-    createCinema
+    createCinema,
+    checkCinema
 }
